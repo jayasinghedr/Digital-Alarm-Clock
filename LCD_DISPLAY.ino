@@ -7,7 +7,7 @@ int d6=11;
 int d7=12;
 LiquidCrystal lcd(rs,en,d4,d5,d6,d7);
 
-int red_led =6;     //variables for the led's
+int red_led =6;     //variables for the LED's
 int green_led =5;
 int blue_led =4;
 

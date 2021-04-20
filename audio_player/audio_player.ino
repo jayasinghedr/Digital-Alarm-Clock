@@ -95,7 +95,7 @@ int TakeOnMe[] = {
   NOTE_A5, NOTE_A5, NOTE_A5, NOTE_E5, NOTE_D5, NOTE_FS5, 
   NOTE_FS5, NOTE_FS5, NOTE_E5, NOTE_E5, NOTE_FS5, NOTE_E5
 };
-
+// 123
 //Note durations of "Take on me" song.
 int TakeOnMeDurations[] = {
   8, 8, 8, 4, 4, 4, 

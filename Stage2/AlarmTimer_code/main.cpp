@@ -20,14 +20,14 @@ int main(void)
 {
 	DDRD = (1<<AlarmLED) | (1<<SnoozeLED); // sets the pins PD2 & PD3 as outputs
 	//DDRB = (1<<PORTB6) | (1<<PORTB7);	// X1 and X2  16MHz crystal 
-	PORTD |= (1<<PORTD4) | (1<<PORTD5); // enable the input pull ups for PD4 & PD4
+	PORTD |= (1<<PORTD4) | (1<<PORTD5); // enable the internal pull ups for PD4 & PD4
 	
 	rtc_t rtc; 
 	
 	// Setting time to the RTC
 	rtc.seconds =  0x55;
-	rtc.minute =  0x00;
-	rtc.hour = 0x20; //  20:17:00
+	rtc.minute =  0x58;
+	rtc.hour = 0x23; //  20:17:00
 	rtc.weekDay = 0x04;
 	rtc.date = 0x27;
 	rtc.month = 0x05;
@@ -37,26 +37,29 @@ int main(void)
 	
 	
 	// stores the values from seconds(00H), minutes(01H) & hour(02H) registers
-	//uint8_t sec;
-	uint8_t min;
-	uint8_t hr;
-	
+
+	int min, hr;
+	uint8_t min_bcd, hr_bcd;
+
 	// Button state
 	bool stop = false;	//STOP button state
 	bool snooze = false;	//Snooze button state
 	
 	// Set the alarm
-	uint8_t alarm_min = 0x01;
-	uint8_t alarm_hr = 0x20;
-	uint8_t snoozeTime = 0x01;	//set snooze to 1 min
+	int alarm_min = 59;
+	int alarm_hr = 23;
+	int snoozeTime = 1;	//set snooze to 1 min
 	
 	while (1)
 	{
 		//read current time from the RTC
 		//sec = read_time(0x00);
-		min = read_time(0x01);	// Minutes from register 01H
-		hr = read_time(0x02);	// Hours from register 02H 
+		min_bcd = read_time(0x01);	// Minutes from register 01H
+		hr_bcd = read_time(0x02);	// Hours from register 02H 
 		
+		min = bcd_to_dec(min_bcd);	//convert minutes to decimal form
+		hr = bcd_to_dec(hr_bcd);	//convert hours to decimal form
+
 		//------------Alarm ON-----------------------------------------------------------------
 		
 		if ((min == alarm_min)  & (hr == alarm_hr) & ~(stop)){
@@ -92,8 +95,19 @@ int main(void)
 		
 		if (snooze){
 			// extends the alarm time after the SnoozeBTN is pressed 
-			alarm_min += snoozeTime;
-			PORTD |= (1<<PORTD5);	//Sets the SnoozeBTN to high (input pull up)
+			if (alarm_min == 59){
+				alarm_min = 0;
+				if (alarm_hr == 23){
+					alarm_hr = 0;
+				}
+				else{
+					alarm_hr += 1;
+				}
+			}
+			else{
+				alarm_min += snoozeTime;
+			}
+			PORTD |= (1<<PORTD5);	//Sets the SnoozeBTN to high (internal pull up)
 			snooze = false;
 		}	
 	}

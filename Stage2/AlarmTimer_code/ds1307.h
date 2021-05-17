@@ -9,7 +9,7 @@
 #ifndef DS1307_H_
 #define DS1307_H_
 
-#define F_CPU 16000000UL
+
 #include <avr/io.h>
 
 //-------------TWI initialization------------------------------------------
@@ -127,5 +127,18 @@ uint8_t read_time(uint8_t reg){
 	return x;
 }
 
+//-----------------Convert BCD to decimal---------------------------------
+
+int bcd_to_dec(uint8_t num){
+	//Data received from DS1307 are in Binary Coded Decimal
+	//This function converts these data to decimal integers
+	int first4, last4, decValue;
+	
+	first4 = num & 0b00001111;	//gets first 4 digits
+	last4 = ((num & 0b11110000) >> 4); //get last 4 digits
+	decValue = last4 * 10 + first4;	//gives the corresponding decimal value
+	
+	return decValue; 
+}
 
 #endif /* DS1307_H_ */

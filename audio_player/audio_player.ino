@@ -150,36 +150,18 @@ int PiratesDurations[] = {
 
 //Notes of the "Game of Thrones" theme song.
 int GOT[] ={
-  392, 262, 311, 349, 392,262, 311, 349, 294, 349, 233, 294, 311, 349, 233, 311, 294, 262
+  NOTE_G4, NOTE_C4, NOTE_DS4, NOTE_F4, NOTE_G4,NOTE_C4, NOTE_DS4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_AS3, NOTE_D4, NOTE_DS4, NOTE_F4, NOTE_AS3, NOTE_DS4, NOTE_D4, NOTE_C4
 };
 
 //note durations of the "Game of Thrones" theme song.
 int GOTDurations[] = {
   800, 800, 250, 250, 800, 800, 250, 250, 1250, 800, 800, 250, 250, 800, 800, 250, 250, 1250
 };
-const int c = 261;
-const int d = 294;
-const int e = 329;
-const int f = 349;
-const int g = 391;
-const int gS = 415;
-const int a = 440;
-const int aS = 455;
-const int b = 466;
-const int cH = 523;
-const int cSH = 554;
-const int dH = 587;
-const int dSH = 622;
-const int eH = 659;
-const int fH = 698;
-const int fSH = 740;
-const int gH = 784;
-const int gSH = 830;
-const int aH = 880;
+
 
 //Notes of the "Star Wars" theme song.
 int StarWars[]={
-  a,a,a,f,cH,a,f,cH,a,0,eH,eH,eH,fH,cH,gS,f,cH,a,0,aH,a,a,aH,gSH,gH,fSH,fH,fSH,0,aS,dSH,dH,cSH,cH,b,cH,0
+  NOTE_A4,NOTE_A4,NOTE_A4,NOTE_F4,NOTE_C5,NOTE_A4,NOTE_F4,NOTE_C5,NOTE_A4,0,NOTE_E5,NOTE_E5,NOTE_E5,NOTE_F5,NOTE_C5,NOTE_GS4,NOTE_F4,NOTE_C5,NOTE_A4,0,NOTE_A5,NOTE_A4,NOTE_A4,NOTE_A5,NOTE_GS5,NOTE_G5,NOTE_FS5,NOTE_F5,NOTE_FS5,0,NOTE_AS4,NOTE_DS5,NOTE_D5,NOTE_CS5,NOTE_C5,NOTE_D4,NOTE_C5,0
 };
 
 //Note durations of the "Star Wars" theme song.

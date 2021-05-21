@@ -10,30 +10,32 @@
 #define SnoozeLED	PORTD3
 #define StopBTN		PIND4
 #define SnoozeBTN	PIND5
- 
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include "ds1307.h"
+
+ds1307 DS1307;
 
 
 int main(void)
 {
 	DDRD = (1<<AlarmLED) | (1<<SnoozeLED); // sets the pins PD2 & PD3 as outputs
-	//DDRB = (1<<PORTB6) | (1<<PORTB7);	// X1 and X2  16MHz crystal 
+	//DDRB = (1<<PORTB6) | (1<<PORTB7);	// X1 and X2  16MHz crystal
 	PORTD |= (1<<PORTD4) | (1<<PORTD5); // enable the internal pull ups for PD4 & PD4
 	
-	rtc_t rtc; 
-	
+	ds1307::rtc_t rtc;
+
 	// Setting time to the RTC
-	rtc.seconds =  0x55;
+	rtc.seconds =  0x55; //
 	rtc.minute =  0x58;
-	rtc.hour = 0x23; //  20:17:00
+	rtc.hour = 0x23;	//  20:17:00
 	rtc.weekDay = 0x04;
 	rtc.date = 0x27;
 	rtc.month = 0x05;
-	rtc.year = 0x21; //27th May 2021
+	rtc.year = 0x21;	//27th May 2021
 	
-	set_time(&rtc);	
+	DS1307.set_time(&rtc);
 	
 	
 	// stores the values from seconds(00H), minutes(01H) & hour(02H) registers
@@ -54,11 +56,11 @@ int main(void)
 	{
 		//read current time from the RTC
 		//sec = read_time(0x00);
-		min_bcd = read_time(0x01);	// Minutes from register 01H
-		hr_bcd = read_time(0x02);	// Hours from register 02H 
+		min_bcd = DS1307.read_time(0x01);	// Minutes from register 01H
+		hr_bcd = DS1307.read_time(0x02);	// Hours from register 02H
 		
-		min = bcd_to_dec(min_bcd);	//convert minutes to decimal form
-		hr = bcd_to_dec(hr_bcd);	//convert hours to decimal form
+		min = DS1307.bcd_to_dec(min_bcd);	//convert minutes to decimal form
+		hr = DS1307.bcd_to_dec(hr_bcd);	//convert hours to decimal form
 
 		//------------Alarm ON-----------------------------------------------------------------
 		
@@ -94,7 +96,7 @@ int main(void)
 		}
 		
 		if (snooze){
-			// extends the alarm time after the SnoozeBTN is pressed 
+			// extends the alarm time after the SnoozeBTN is pressed
 			if (alarm_min == 59){
 				alarm_min = 0;
 				if (alarm_hr == 23){
@@ -109,8 +111,9 @@ int main(void)
 			}
 			PORTD |= (1<<PORTD5);	//Sets the SnoozeBTN to high (internal pull up)
 			snooze = false;
-		}	
+		}
 	}
 }
+
 
 

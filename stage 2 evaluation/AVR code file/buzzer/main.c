@@ -18,9 +18,9 @@
 
 // two buttons are connected to the portB pin 6 & 7. one button is for play/pause a melody. other one for select a melody
 #define BUTTON_PIN PINB
-#define PLAYBUTTON_PIN 7
-#define PAUSEBUTTON_PIN 7
-#define NEXTBUTTON_PIN 6
+#define PLAYBUTTON_PIN 0
+#define PAUSEBUTTON_PIN 0
+#define NEXTBUTTON_PIN 1
 
 
 // function to create a sound of frequency of "frequency" for time duration of "duration"
@@ -52,7 +52,7 @@ int sizeoftakeonme = sizeof(TakeOnMe)/sizeof(TakeOnMe[0]);
 int main(void)
 {
 	// declaring portB pin 6 & 7 as inputs
-	DDRB=0b00111111;
+	DDRB= 0b11111100;
 	
 	
 	while (1)

@@ -403,12 +403,12 @@ END GROUP
                 0x000000a2                __vector_20
                 0x000000a6                . = ALIGN (0x2)
  *(.text.*)
- .text.NextMelody
-                0x000000a6       0xd2 main.o
-                0x000000a6                NextMelody
  .text.playthenote
-                0x00000178      0x23e main.o
-                0x00000178                playthenote
+                0x000000a6      0x23e main.o
+                0x000000a6                playthenote
+ .text.NextMelody
+                0x000002e4       0xd2 main.o
+                0x000002e4                NextMelody
  .text.playthemelody
                 0x000003b6      0x2a8 main.o
                 0x000003b6                playthemelody
@@ -675,10 +675,10 @@ END GROUP
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2      0x1cd main.o
 
-.debug_line     0x00000000      0x5ec
+.debug_line     0x00000000      0x5fe
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_line    0x00000134      0x4b8 main.o
+ .debug_line    0x00000134      0x4ca main.o
 
 .debug_frame    0x00000000      0x124
  *(.debug_frame)

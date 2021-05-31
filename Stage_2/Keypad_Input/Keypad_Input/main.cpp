@@ -23,7 +23,7 @@ int main(void)
 	    key = keypad.GetKey();
 	    
 	    
-	    if (key < 13) {for (uint8_t i = 0;i<key;i++){_delay_ms(100);PORTB = 0b00000001;_delay_ms(100);PORTB = 0b00000000;}}
+	    if (key < 13) {for (uint8_t i = 0;i<key;i++){PORTB = 0b00000001;_delay_ms(100);PORTB = 0b00000000;_delay_ms(100);}}
 	}
 	    
 }

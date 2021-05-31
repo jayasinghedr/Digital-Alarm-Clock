@@ -409,11 +409,11 @@ END GROUP
  .debug_abbrev  0x000005a2       0xab Get_key.o
  .debug_abbrev  0x0000064d      0x154 main.o
 
-.debug_line     0x00000000      0x386
+.debug_line     0x00000000      0x3a0
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 E:/Program Files/atmelStudio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000134      0x10e Get_key.o
- .debug_line    0x00000242      0x144 main.o
+ .debug_line    0x00000242      0x15e main.o
 
 .debug_frame    0x00000000       0x48
  *(.debug_frame)

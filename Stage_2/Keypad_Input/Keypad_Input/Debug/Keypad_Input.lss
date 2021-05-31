@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 000007a1  00000000  00000000  00000b1e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000386  00000000  00000000  000012bf  2**0
+  8 .debug_line   000003a0  00000000  00000000  000012bf  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000048  00000000  00000000  00001648  2**2
+  9 .debug_frame  00000048  00000000  00000000  00001660  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000406  00000000  00000000  00001690  2**0
+ 10 .debug_str    00000406  00000000  00000000  000016a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000010a  00000000  00000000  00001a96  2**0
+ 11 .debug_loc    0000010a  00000000  00000000  00001aae  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000020  00000000  00000000  00001ba0  2**0
+ 12 .debug_ranges 00000020  00000000  00000000  00001bb8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -197,39 +197,39 @@ int main(void)
  108:	0e 94 48 00 	call	0x90	; 0x90 <_ZN7Get_key6GetKeyEv>
 	    
 	    
-	    if (key < 13) {for (uint8_t i = 0;i<key;i++){_delay_ms(100);PORTB = 0b00000001;_delay_ms(100);PORTB = 0b00000000;}}
+	    if (key < 13) {for (uint8_t i = 0;i<key;i++){PORTB = 0b00000001;_delay_ms(100);PORTB = 0b00000000;_delay_ms(100);}}
  10c:	8d 30       	cpi	r24, 0x0D	; 13
  10e:	d0 f7       	brcc	.-12     	; 0x104 <main+0x4>
  110:	90 e0       	ldi	r25, 0x00	; 0
  112:	98 17       	cp	r25, r24
  114:	b8 f7       	brcc	.-18     	; 0x104 <main+0x4>
+ 116:	21 e0       	ldi	r18, 0x01	; 1
+ 118:	25 b9       	out	0x05, r18	; 5
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 116:	2f ef       	ldi	r18, 0xFF	; 255
- 118:	30 e7       	ldi	r19, 0x70	; 112
- 11a:	42 e0       	ldi	r20, 0x02	; 2
- 11c:	21 50       	subi	r18, 0x01	; 1
- 11e:	30 40       	sbci	r19, 0x00	; 0
- 120:	40 40       	sbci	r20, 0x00	; 0
- 122:	e1 f7       	brne	.-8      	; 0x11c <main+0x1c>
- 124:	00 c0       	rjmp	.+0      	; 0x126 <main+0x26>
- 126:	00 00       	nop
- 128:	21 e0       	ldi	r18, 0x01	; 1
- 12a:	25 b9       	out	0x05, r18	; 5
- 12c:	2f ef       	ldi	r18, 0xFF	; 255
- 12e:	30 e7       	ldi	r19, 0x70	; 112
- 130:	42 e0       	ldi	r20, 0x02	; 2
- 132:	21 50       	subi	r18, 0x01	; 1
- 134:	30 40       	sbci	r19, 0x00	; 0
- 136:	40 40       	sbci	r20, 0x00	; 0
- 138:	e1 f7       	brne	.-8      	; 0x132 <main+0x32>
- 13a:	00 c0       	rjmp	.+0      	; 0x13c <main+0x3c>
- 13c:	00 00       	nop
- 13e:	15 b8       	out	0x05, r1	; 5
+ 11a:	2f ef       	ldi	r18, 0xFF	; 255
+ 11c:	30 e7       	ldi	r19, 0x70	; 112
+ 11e:	42 e0       	ldi	r20, 0x02	; 2
+ 120:	21 50       	subi	r18, 0x01	; 1
+ 122:	30 40       	sbci	r19, 0x00	; 0
+ 124:	40 40       	sbci	r20, 0x00	; 0
+ 126:	e1 f7       	brne	.-8      	; 0x120 <main+0x20>
+ 128:	00 c0       	rjmp	.+0      	; 0x12a <main+0x2a>
+ 12a:	00 00       	nop
+ 12c:	15 b8       	out	0x05, r1	; 5
+ 12e:	2f ef       	ldi	r18, 0xFF	; 255
+ 130:	30 e7       	ldi	r19, 0x70	; 112
+ 132:	42 e0       	ldi	r20, 0x02	; 2
+ 134:	21 50       	subi	r18, 0x01	; 1
+ 136:	30 40       	sbci	r19, 0x00	; 0
+ 138:	40 40       	sbci	r20, 0x00	; 0
+ 13a:	e1 f7       	brne	.-8      	; 0x134 <main+0x34>
+ 13c:	00 c0       	rjmp	.+0      	; 0x13e <main+0x3e>
+ 13e:	00 00       	nop
  140:	9f 5f       	subi	r25, 0xFF	; 255
  142:	e7 cf       	rjmp	.-50     	; 0x112 <main+0x12>
 

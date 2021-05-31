@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000000e4  00000000  00000000  00002500  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000052d  00000000  00000000  000025e4  2**0
+ 10 .debug_str    0000052f  00000000  00000000  000025e4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000768  00000000  00000000  00002b11  2**0
+ 11 .debug_loc    00000768  00000000  00000000  00002b13  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000048  00000000  00000000  00003279  2**0
+ 12 .debug_ranges 00000048  00000000  00000000  0000327b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -107,20 +107,20 @@ Disassembly of section .text:
 void LCD_Display::LCD_Commandgiver( unsigned char comand)      //function to give commands to the LCD
 {
 	LCDER_port=(LCDER_port & 0x0F) | (comand & 0xF0);          //Sending upper nibble
-  a6:	85 b1       	in	r24, 0x05	; 5
+  a6:	8b b1       	in	r24, 0x0b	; 11
   a8:	8f 70       	andi	r24, 0x0F	; 15
   aa:	96 2f       	mov	r25, r22
   ac:	90 7f       	andi	r25, 0xF0	; 240
   ae:	89 2b       	or	r24, r25
-  b0:	85 b9       	out	0x05, r24	; 5
+  b0:	8b b9       	out	0x0b, r24	; 11
 	LCDER_port &= ~ (1<<Rsel);							       //setting the pin0 of portB LOW to write
-  b2:	85 b1       	in	r24, 0x05	; 5
+  b2:	8b b1       	in	r24, 0x0b	; 11
   b4:	8e 7f       	andi	r24, 0xFE	; 254
-  b6:	85 b9       	out	0x05, r24	; 5
+  b6:	8b b9       	out	0x0b, r24	; 11
 	LCDER_port |= (1<<ENable);                                 //setting the pin1 of portB HIGH to read
-  b8:	85 b1       	in	r24, 0x05	; 5
+  b8:	8b b1       	in	r24, 0x0b	; 11
   ba:	82 60       	ori	r24, 0x02	; 2
-  bc:	85 b9       	out	0x05, r24	; 5
+  bc:	8b b9       	out	0x0b, r24	; 11
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -133,9 +133,9 @@ void LCD_Display::LCD_Commandgiver( unsigned char comand)      //function to giv
   c4:	00 00       	nop
 	_delay_us(2);
 	LCDER_port &= ~ (1<<ENable);						       //setting the pin1 of portB LOW to write
-  c6:	85 b1       	in	r24, 0x05	; 5
+  c6:	8b b1       	in	r24, 0x0b	; 11
   c8:	8d 7f       	andi	r24, 0xFD	; 253
-  ca:	85 b9       	out	0x05, r24	; 5
+  ca:	8b b9       	out	0x0b, r24	; 11
   cc:	8f e8       	ldi	r24, 0x8F	; 143
   ce:	91 e0       	ldi	r25, 0x01	; 1
   d0:	01 97       	sbiw	r24, 0x01	; 1
@@ -146,27 +146,27 @@ void LCD_Display::LCD_Commandgiver( unsigned char comand)      //function to giv
 	_delay_us(200);
 	
 	LCDER_port = (LCDER_port & 0x0F) | (comand << 4);          //Sending lower nibble
-  d8:	85 b1       	in	r24, 0x05	; 5
+  d8:	8b b1       	in	r24, 0x0b	; 11
   da:	90 e1       	ldi	r25, 0x10	; 16
   dc:	69 9f       	mul	r22, r25
   de:	b0 01       	movw	r22, r0
   e0:	11 24       	eor	r1, r1
   e2:	8f 70       	andi	r24, 0x0F	; 15
   e4:	68 2b       	or	r22, r24
-  e6:	65 b9       	out	0x05, r22	; 5
+  e6:	6b b9       	out	0x0b, r22	; 11
 	LCDER_port |= (1 << ENable);                               //setting the pin1 of portB HIGH to read
-  e8:	85 b1       	in	r24, 0x05	; 5
+  e8:	8b b1       	in	r24, 0x0b	; 11
   ea:	82 60       	ori	r24, 0x02	; 2
-  ec:	85 b9       	out	0x05, r24	; 5
+  ec:	8b b9       	out	0x0b, r24	; 11
   ee:	85 e0       	ldi	r24, 0x05	; 5
   f0:	8a 95       	dec	r24
   f2:	f1 f7       	brne	.-4      	; 0xf0 <_ZN11LCD_Display16LCD_CommandgiverEh+0x4a>
   f4:	00 00       	nop
 	_delay_us(2);
 	LCDER_port &= ~(1<< ENable);                               //setting the pin1 of portB LOW to write
-  f6:	85 b1       	in	r24, 0x05	; 5
+  f6:	8b b1       	in	r24, 0x0b	; 11
   f8:	8d 7f       	andi	r24, 0xFD	; 253
-  fa:	85 b9       	out	0x05, r24	; 5
+  fa:	8b b9       	out	0x0b, r24	; 11
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -191,7 +191,7 @@ void LCD_Display::LCD_Initializer(){                           // function to ou
  10e:	ec 01       	movw	r28, r24
 	LCD_Dir_00 = 0xFF;                                         // setting the portB to be in Output mode
  110:	8f ef       	ldi	r24, 0xFF	; 255
- 112:	84 b9       	out	0x04, r24	; 4
+ 112:	8a b9       	out	0x0a, r24	; 10
  114:	8f e3       	ldi	r24, 0x3F	; 63
  116:	9c e9       	ldi	r25, 0x9C	; 156
  118:	01 97       	sbiw	r24, 0x01	; 1
@@ -237,20 +237,20 @@ void LCD_Display::LCD_Initializer(){                           // function to ou
 void LCD_Display::LCD_Character( unsigned char data_00)        //function to output characters towards LCD
 {
 	LCDER_port = ( LCDER_port & 0x0F) | (data_00 & 0xF0 );     //Sending upper nibble
- 15a:	85 b1       	in	r24, 0x05	; 5
+ 15a:	8b b1       	in	r24, 0x0b	; 11
  15c:	8f 70       	andi	r24, 0x0F	; 15
  15e:	96 2f       	mov	r25, r22
  160:	90 7f       	andi	r25, 0xF0	; 240
  162:	89 2b       	or	r24, r25
- 164:	85 b9       	out	0x05, r24	; 5
+ 164:	8b b9       	out	0x0b, r24	; 11
 	LCDER_port |= (1<<Rsel);                                   //setting the pin0 of portB HIGH to read
- 166:	85 b1       	in	r24, 0x05	; 5
+ 166:	8b b1       	in	r24, 0x0b	; 11
  168:	81 60       	ori	r24, 0x01	; 1
- 16a:	85 b9       	out	0x05, r24	; 5
+ 16a:	8b b9       	out	0x0b, r24	; 11
 	LCDER_port |=(1<<ENable);                                  //setting the pin1 of portB HIGH to read
- 16c:	85 b1       	in	r24, 0x05	; 5
+ 16c:	8b b1       	in	r24, 0x0b	; 11
  16e:	82 60       	ori	r24, 0x02	; 2
- 170:	85 b9       	out	0x05, r24	; 5
+ 170:	8b b9       	out	0x0b, r24	; 11
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -263,9 +263,9 @@ void LCD_Display::LCD_Character( unsigned char data_00)        //function to out
  178:	00 c0       	rjmp	.+0      	; 0x17a <_ZN11LCD_Display13LCD_CharacterEh+0x20>
 	_delay_us(1);
 	LCDER_port &= ~(1<<ENable);                                //setting the pin1 of portB LOW to write
- 17a:	85 b1       	in	r24, 0x05	; 5
+ 17a:	8b b1       	in	r24, 0x0b	; 11
  17c:	8d 7f       	andi	r24, 0xFD	; 253
- 17e:	85 b9       	out	0x05, r24	; 5
+ 17e:	8b b9       	out	0x0b, r24	; 11
  180:	8f e8       	ldi	r24, 0x8F	; 143
  182:	91 e0       	ldi	r25, 0x01	; 1
  184:	01 97       	sbiw	r24, 0x01	; 1
@@ -277,27 +277,27 @@ void LCD_Display::LCD_Character( unsigned char data_00)        //function to out
 	
 	
 	LCDER_port = ( LCDER_port & 0x0F) | (data_00 <<4 );        //Sending lower nibble
- 18c:	85 b1       	in	r24, 0x05	; 5
+ 18c:	8b b1       	in	r24, 0x0b	; 11
  18e:	90 e1       	ldi	r25, 0x10	; 16
  190:	69 9f       	mul	r22, r25
  192:	b0 01       	movw	r22, r0
  194:	11 24       	eor	r1, r1
  196:	8f 70       	andi	r24, 0x0F	; 15
  198:	68 2b       	or	r22, r24
- 19a:	65 b9       	out	0x05, r22	; 5
+ 19a:	6b b9       	out	0x0b, r22	; 11
 	LCDER_port |= (1<< ENable);                                //setting the pin1 of portB HIGH to read
- 19c:	85 b1       	in	r24, 0x05	; 5
+ 19c:	8b b1       	in	r24, 0x0b	; 11
  19e:	82 60       	ori	r24, 0x02	; 2
- 1a0:	85 b9       	out	0x05, r24	; 5
+ 1a0:	8b b9       	out	0x0b, r24	; 11
  1a2:	82 e0       	ldi	r24, 0x02	; 2
  1a4:	8a 95       	dec	r24
  1a6:	f1 f7       	brne	.-4      	; 0x1a4 <_ZN11LCD_Display13LCD_CharacterEh+0x4a>
  1a8:	00 c0       	rjmp	.+0      	; 0x1aa <_ZN11LCD_Display13LCD_CharacterEh+0x50>
 	_delay_us(1);
 	LCDER_port &= ~(1<<ENable);                                //setting the pin1 of portB LOW to write
- 1aa:	85 b1       	in	r24, 0x05	; 5
+ 1aa:	8b b1       	in	r24, 0x0b	; 11
  1ac:	8d 7f       	andi	r24, 0xFD	; 253
- 1ae:	85 b9       	out	0x05, r24	; 5
+ 1ae:	8b b9       	out	0x0b, r24	; 11
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -395,24 +395,24 @@ int main(void)
  21c:	82 e4       	ldi	r24, 0x42	; 66
  21e:	91 e0       	ldi	r25, 0x01	; 1
  220:	0e 94 85 00 	call	0x10a	; 0x10a <_ZN11LCD_Display15LCD_InitializerEv>
-	DDRD = 0x07;                                               //0x07=0b00000111 set d0,d1,d2 as output pins(LED"s are connected)
+	DDRB = 0x07;                                               //0x07=0b00000111 set d0,d1,d2 as output pins(LED"s are connected)
  224:	87 e0       	ldi	r24, 0x07	; 7
- 226:	8a b9       	out	0x0a, r24	; 10
-	PORTD=0x38;                                                //0x38=0b00111000 set d3,d4,d5 as high so it can read the value(button's)
+ 226:	84 b9       	out	0x04, r24	; 4
+	PORTB=0x38;                                                //0x38=0b00111000 set d3,d4,d5 as high so it can read the value(button's)
  228:	88 e3       	ldi	r24, 0x38	; 56
- 22a:	8b b9       	out	0x0b, r24	; 11
+ 22a:	85 b9       	out	0x05, r24	; 5
 	
     while (1) 
 	
 	{
-		if(!(PIND & 0x08))                                     //checks whether the button of d3 is pressed
- 22c:	4b 99       	sbic	0x09, 3	; 9
+		if(!(PINB & 0x08))                                     //checks whether the button of d3 is pressed
+ 22c:	1b 99       	sbic	0x03, 3	; 3
  22e:	22 c0       	rjmp	.+68     	; 0x274 <main+0x58>
 		{
-			PORTD |= 0x01;                                     //0x01=0b00000001, make d0 as high
- 230:	8b b1       	in	r24, 0x0b	; 11
+			PORTB |= 0x01;                                     //0x01=0b00000001, make d0 as high
+ 230:	85 b1       	in	r24, 0x05	; 5
  232:	81 60       	ori	r24, 0x01	; 1
- 234:	8b b9       	out	0x0b, r24	; 11
+ 234:	85 b9       	out	0x05, r24	; 5
 			lcd.LCD_String("YOU HAVE PRESSED");                //Write string on 1st line of LCD
  236:	60 e0       	ldi	r22, 0x00	; 0
  238:	71 e0       	ldi	r23, 0x01	; 1
@@ -448,20 +448,20 @@ int main(void)
 		}
 		else
 		{
-			PORTD &= 0xFE;                                     //make d0 as low
- 274:	8b b1       	in	r24, 0x0b	; 11
+			PORTB &= 0xFE;                                     //make d0 as low
+ 274:	85 b1       	in	r24, 0x05	; 5
  276:	8e 7f       	andi	r24, 0xFE	; 254
- 278:	8b b9       	out	0x0b, r24	; 11
+ 278:	85 b9       	out	0x05, r24	; 5
 		}
 		
-		if(!(PIND & 0x10))                                     //checks whether the button of d4 is pressed
- 27a:	4c 99       	sbic	0x09, 4	; 9
+		if(!(PINB & 0x10))                                     //checks whether the button of d4 is pressed
+ 27a:	1c 99       	sbic	0x03, 4	; 3
  27c:	22 c0       	rjmp	.+68     	; 0x2c2 <main+0xa6>
 		{
-			PORTD |= 0x02;                                     //0x02=0b00000010, make d1 as high
- 27e:	8b b1       	in	r24, 0x0b	; 11
+			PORTB |= 0x02;                                     //0x02=0b00000010, make d1 as high
+ 27e:	85 b1       	in	r24, 0x05	; 5
  280:	82 60       	ori	r24, 0x02	; 2
- 282:	8b b9       	out	0x0b, r24	; 11
+ 282:	85 b9       	out	0x05, r24	; 5
 			lcd.LCD_String("YOU HAVE PRESSED");                //Write string on 1st line of LCD
  284:	60 e0       	ldi	r22, 0x00	; 0
  286:	71 e0       	ldi	r23, 0x01	; 1
@@ -497,20 +497,20 @@ int main(void)
 		}
 		else
 		{
-			PORTD &= 0xFD;                                     //make d1 as low
- 2c2:	8b b1       	in	r24, 0x0b	; 11
+			PORTB &= 0xFD;                                     //make d1 as low
+ 2c2:	85 b1       	in	r24, 0x05	; 5
  2c4:	8d 7f       	andi	r24, 0xFD	; 253
- 2c6:	8b b9       	out	0x0b, r24	; 11
+ 2c6:	85 b9       	out	0x05, r24	; 5
 		}
 		
-		if(!(PIND & 0x20))                                     //checks whether the button of d5 is pressed
- 2c8:	4d 99       	sbic	0x09, 5	; 9
+		if(!(PINB & 0x20))                                     //checks whether the button of d5 is pressed
+ 2c8:	1d 99       	sbic	0x03, 5	; 3
  2ca:	22 c0       	rjmp	.+68     	; 0x310 <main+0xf4>
 		{
-			PORTD |= 0x04;                                     //0x04=0b00000100, make d2 as high
- 2cc:	8b b1       	in	r24, 0x0b	; 11
+			PORTB |= 0x04;                                     //0x04=0b00000100, make d2 as high
+ 2cc:	85 b1       	in	r24, 0x05	; 5
  2ce:	84 60       	ori	r24, 0x04	; 4
- 2d0:	8b b9       	out	0x0b, r24	; 11
+ 2d0:	85 b9       	out	0x05, r24	; 5
 			lcd.LCD_String("YOU HAVE PRESSED");                //Write string on 1st line of LCD
  2d2:	60 e0       	ldi	r22, 0x00	; 0
  2d4:	71 e0       	ldi	r23, 0x01	; 1
@@ -546,10 +546,10 @@ int main(void)
 		}
 		else
 		{
-			PORTD &= 0xFB;                                      //make d2 as low
- 310:	8b b1       	in	r24, 0x0b	; 11
+			PORTB &= 0xFB;                                      //make d2 as low
+ 310:	85 b1       	in	r24, 0x05	; 5
  312:	8b 7f       	andi	r24, 0xFB	; 251
- 314:	8b b9       	out	0x0b, r24	; 11
+ 314:	85 b9       	out	0x05, r24	; 5
  316:	8a cf       	rjmp	.-236    	; 0x22c <main+0x10>
 
 00000318 <_exit>:

@@ -455,10 +455,10 @@ END GROUP
  .debug_str     0x00000516       0x9e main.o
                                 0x3ba (size before relaxing)
 
-.debug_loc      0x00000000      0x49d
+.debug_loc      0x00000000      0x49c
  *(.debug_loc)
  .debug_loc     0x00000000      0x305 ds1307.o
- .debug_loc     0x00000305      0x198 main.o
+ .debug_loc     0x00000305      0x197 main.o
 
 .debug_macinfo
  *(.debug_macinfo)

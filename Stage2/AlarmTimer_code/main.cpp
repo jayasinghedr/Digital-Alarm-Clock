@@ -28,11 +28,11 @@ int main(void)
 
 	// Setting time to the RTC
 	rtc.seconds =  0x55; //
-	rtc.minute =  0x58;
-	rtc.hour = 0x23;	//  20:17:00
-	rtc.weekDay = 0x04;
-	rtc.date = 0x27;
-	rtc.month = 0x05;
+	rtc.minute =  0x30;
+	rtc.hour = 0x11;	//  20:17:00
+	rtc.weekDay = 0x02;
+	rtc.date = 0x01;
+	rtc.month = 0x06;
 	rtc.year = 0x21;	//27th May 2021
 	
 	DS1307.set_time(&rtc);
@@ -48,8 +48,8 @@ int main(void)
 	bool snooze = false;	//Snooze button state
 	
 	// Set the alarm
-	int alarm_min = 59;
-	int alarm_hr = 23;
+	int alarm_min = 31;
+	int alarm_hr = 11;
 	int snoozeTime = 1;	//set snooze to 1 min
 	
 	while (1)

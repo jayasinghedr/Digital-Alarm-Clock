@@ -386,8 +386,8 @@ void LCD_Display::LCD_Clear()                                  //function to cle
  21a:	08 95       	ret
 
 0000021c <main>:
-#include "LCD_Display.h"   
-LCD_Display lcd;
+#include "LCD_Display.h"                                       //including the library of set of  lcd functions
+LCD_Display lcd;                                               //calling the Classes of the objects
                       
 int main(void)
 {
@@ -395,21 +395,21 @@ int main(void)
  21c:	82 e4       	ldi	r24, 0x42	; 66
  21e:	91 e0       	ldi	r25, 0x01	; 1
  220:	0e 94 85 00 	call	0x10a	; 0x10a <_ZN11LCD_Display15LCD_InitializerEv>
-	DDRB = 0x07;                                               //0x07=0b00000111 set d0,d1,d2 as output pins(LED"s are connected)
+	DDRB = 0x07;                                               //0x07=0b00000111 set PB0,PB1,PB2 as output pins(LED"s are connected)
  224:	87 e0       	ldi	r24, 0x07	; 7
  226:	84 b9       	out	0x04, r24	; 4
-	PORTB=0x38;                                                //0x38=0b00111000 set d3,d4,d5 as high so it can read the value(button's)
+	PORTB=0x38;                                                //0x38=0b00111000 set PB3,PB4,PB5 as high so it can read the value(button's)
  228:	88 e3       	ldi	r24, 0x38	; 56
  22a:	85 b9       	out	0x05, r24	; 5
 	
     while (1) 
 	
 	{
-		if(!(PINB & 0x08))                                     //checks whether the button of d3 is pressed
+		if(!(PINB & 0x08))                                     //checks whether the button of PB3 is pressed
  22c:	1b 99       	sbic	0x03, 3	; 3
  22e:	22 c0       	rjmp	.+68     	; 0x274 <main+0x58>
 		{
-			PORTB |= 0x01;                                     //0x01=0b00000001, make d0 as high
+			PORTB |= 0x01;                                     //0x01=0b00000001, make PB0 as high, LED lights up
  230:	85 b1       	in	r24, 0x05	; 5
  232:	81 60       	ori	r24, 0x01	; 1
  234:	85 b9       	out	0x05, r24	; 5
@@ -448,17 +448,17 @@ int main(void)
 		}
 		else
 		{
-			PORTB &= 0xFE;                                     //make d0 as low
+			PORTB &= 0xFE;                                     //make PB0 as low,LED lights off
  274:	85 b1       	in	r24, 0x05	; 5
  276:	8e 7f       	andi	r24, 0xFE	; 254
  278:	85 b9       	out	0x05, r24	; 5
 		}
 		
-		if(!(PINB & 0x10))                                     //checks whether the button of d4 is pressed
+		if(!(PINB & 0x10))                                     //checks whether the button of PB4 is pressed
  27a:	1c 99       	sbic	0x03, 4	; 3
  27c:	22 c0       	rjmp	.+68     	; 0x2c2 <main+0xa6>
 		{
-			PORTB |= 0x02;                                     //0x02=0b00000010, make d1 as high
+			PORTB |= 0x02;                                     //0x02=0b00000010, make PB1 as high,LED lights up
  27e:	85 b1       	in	r24, 0x05	; 5
  280:	82 60       	ori	r24, 0x02	; 2
  282:	85 b9       	out	0x05, r24	; 5
@@ -497,7 +497,7 @@ int main(void)
 		}
 		else
 		{
-			PORTB &= 0xFD;                                     //make d1 as low
+			PORTB &= 0xFD;                                     //make PB1 as low,LED lights off
  2c2:	85 b1       	in	r24, 0x05	; 5
  2c4:	8d 7f       	andi	r24, 0xFD	; 253
  2c6:	85 b9       	out	0x05, r24	; 5
@@ -507,7 +507,7 @@ int main(void)
  2c8:	1d 99       	sbic	0x03, 5	; 3
  2ca:	22 c0       	rjmp	.+68     	; 0x310 <main+0xf4>
 		{
-			PORTB |= 0x04;                                     //0x04=0b00000100, make d2 as high
+			PORTB |= 0x04;                                     //0x04=0b00000100, make PB2 as high, led lights up
  2cc:	85 b1       	in	r24, 0x05	; 5
  2ce:	84 60       	ori	r24, 0x04	; 4
  2d0:	85 b9       	out	0x05, r24	; 5
@@ -546,7 +546,7 @@ int main(void)
 		}
 		else
 		{
-			PORTB &= 0xFB;                                      //make d2 as low
+			PORTB &= 0xFB;                                      //make PB2 as low,LED lights off
  310:	85 b1       	in	r24, 0x05	; 5
  312:	8b 7f       	andi	r24, 0xFB	; 251
  314:	85 b9       	out	0x05, r24	; 5

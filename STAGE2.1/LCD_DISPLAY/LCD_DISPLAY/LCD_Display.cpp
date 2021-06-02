@@ -5,10 +5,10 @@
  *  Author: Jayabawan
  */ 
 
-#define F_CPU 8000000L	
-#include <avr/io.h>
-#include <util/delay.h>
-#include "LCD_Display.h"
+#define F_CPU 8000000L	                                       //defining the speed of the clock
+#include <avr/io.h>                                            //including input/output pin library
+#include <util/delay.h>                                        //including delay library
+#include "LCD_Display.h"                                       //including the .h file which contains the class
 
 
 #define LCD_Dir_00    DDRD									   //assigning the values to the defined variables

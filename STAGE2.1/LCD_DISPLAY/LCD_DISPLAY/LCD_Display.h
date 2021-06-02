@@ -9,13 +9,13 @@
 #ifndef LCD_DISPLAY_H_
 #define LCD_DISPLAY_H_
 class LCD_Display{
-	private:
+	private:                                                               //can't be accessed and modified from outside the code.
 	unsigned char comand;
 	unsigned char data_00;
 	char *string_00;
 	char row_1;
 	char position;
-	public:
+	public:                                                                //can be accessed and modified from outside the code.
 	void LCD_Commandgiver( unsigned char comand);
 	void LCD_Initializer();
 	void LCD_Character( unsigned char data_00);

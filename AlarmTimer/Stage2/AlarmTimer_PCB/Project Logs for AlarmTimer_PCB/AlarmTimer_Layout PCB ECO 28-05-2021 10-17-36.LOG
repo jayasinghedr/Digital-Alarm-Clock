@@ -1,0 +1,6 @@
+Change Physical Footprint: Designator=BAT1 Old Footprint=BAT_SMTU2032_RNB New Footprint=BAT_SMTU2032_RNB
+Change Physical Footprint: Designator=SW1 Old Footprint=TL1100F New Footprint=TL1100F
+Change Physical Footprint: Designator=SW2 Old Footprint=TL1100F New Footprint=TL1100F
+Change Physical Footprint: Designator=SW3 Old Footprint=TL1100F New Footprint=TL1100F
+Change Physical Footprint: Designator=U2 Old Footprint=21-0043D_8_MXM New Footprint=21-0043D_8_MXM
+Change Physical Footprint: Designator=U3 Old Footprint=28P3_SPDIP28_SP_MCH New Footprint=28P3_SPDIP28_SP_MCH

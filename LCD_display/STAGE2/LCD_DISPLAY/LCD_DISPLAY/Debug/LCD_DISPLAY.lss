@@ -1,0 +1,559 @@
+
+LCD_DISPLAY.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000042  00800100  0000031c  000003b0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000031c  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000006  00800142  00800142  000003f2  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000003f2  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000424  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000068  00000000  00000000  00000464  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000011f5  00000000  00000000  000004cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000008d1  00000000  00000000  000016c1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000056c  00000000  00000000  00001f92  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000e4  00000000  00000000  00002500  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000052d  00000000  00000000  000025e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000768  00000000  00000000  00002b11  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000048  00000000  00000000  00003279  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  60:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	ec e1       	ldi	r30, 0x1C	; 28
+  7c:	f3 e0       	ldi	r31, 0x03	; 3
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a2 34       	cpi	r26, 0x42	; 66
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+
+0000008a <__do_clear_bss>:
+  8a:	21 e0       	ldi	r18, 0x01	; 1
+  8c:	a2 e4       	ldi	r26, 0x42	; 66
+  8e:	b1 e0       	ldi	r27, 0x01	; 1
+  90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
+
+00000092 <.do_clear_bss_loop>:
+  92:	1d 92       	st	X+, r1
+
+00000094 <.do_clear_bss_start>:
+  94:	a8 34       	cpi	r26, 0x48	; 72
+  96:	b2 07       	cpc	r27, r18
+  98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
+  9a:	0e 94 0e 01 	call	0x21c	; 0x21c <main>
+  9e:	0c 94 8c 01 	jmp	0x318	; 0x318 <_exit>
+
+000000a2 <__bad_interrupt>:
+  a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a6 <_ZN11LCD_Display16LCD_CommandgiverEh>:
+#define ENable        PB1
+
+
+void LCD_Display::LCD_Commandgiver( unsigned char comand)      //function to give commands to the LCD
+{
+	LCDER_port=(LCDER_port & 0x0F) | (comand & 0xF0);          //Sending upper nibble
+  a6:	85 b1       	in	r24, 0x05	; 5
+  a8:	8f 70       	andi	r24, 0x0F	; 15
+  aa:	96 2f       	mov	r25, r22
+  ac:	90 7f       	andi	r25, 0xF0	; 240
+  ae:	89 2b       	or	r24, r25
+  b0:	85 b9       	out	0x05, r24	; 5
+	LCDER_port &= ~ (1<<Rsel);							       //setting the pin0 of portB LOW to write
+  b2:	85 b1       	in	r24, 0x05	; 5
+  b4:	8e 7f       	andi	r24, 0xFE	; 254
+  b6:	85 b9       	out	0x05, r24	; 5
+	LCDER_port |= (1<<ENable);                                 //setting the pin1 of portB HIGH to read
+  b8:	85 b1       	in	r24, 0x05	; 5
+  ba:	82 60       	ori	r24, 0x02	; 2
+  bc:	85 b9       	out	0x05, r24	; 5
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  be:	85 e0       	ldi	r24, 0x05	; 5
+  c0:	8a 95       	dec	r24
+  c2:	f1 f7       	brne	.-4      	; 0xc0 <_ZN11LCD_Display16LCD_CommandgiverEh+0x1a>
+  c4:	00 00       	nop
+	_delay_us(2);
+	LCDER_port &= ~ (1<<ENable);						       //setting the pin1 of portB LOW to write
+  c6:	85 b1       	in	r24, 0x05	; 5
+  c8:	8d 7f       	andi	r24, 0xFD	; 253
+  ca:	85 b9       	out	0x05, r24	; 5
+  cc:	8f e8       	ldi	r24, 0x8F	; 143
+  ce:	91 e0       	ldi	r25, 0x01	; 1
+  d0:	01 97       	sbiw	r24, 0x01	; 1
+  d2:	f1 f7       	brne	.-4      	; 0xd0 <_ZN11LCD_Display16LCD_CommandgiverEh+0x2a>
+  d4:	00 c0       	rjmp	.+0      	; 0xd6 <_ZN11LCD_Display16LCD_CommandgiverEh+0x30>
+  d6:	00 00       	nop
+	
+	_delay_us(200);
+	
+	LCDER_port = (LCDER_port & 0x0F) | (comand << 4);          //Sending lower nibble
+  d8:	85 b1       	in	r24, 0x05	; 5
+  da:	90 e1       	ldi	r25, 0x10	; 16
+  dc:	69 9f       	mul	r22, r25
+  de:	b0 01       	movw	r22, r0
+  e0:	11 24       	eor	r1, r1
+  e2:	8f 70       	andi	r24, 0x0F	; 15
+  e4:	68 2b       	or	r22, r24
+  e6:	65 b9       	out	0x05, r22	; 5
+	LCDER_port |= (1 << ENable);                               //setting the pin1 of portB HIGH to read
+  e8:	85 b1       	in	r24, 0x05	; 5
+  ea:	82 60       	ori	r24, 0x02	; 2
+  ec:	85 b9       	out	0x05, r24	; 5
+  ee:	85 e0       	ldi	r24, 0x05	; 5
+  f0:	8a 95       	dec	r24
+  f2:	f1 f7       	brne	.-4      	; 0xf0 <_ZN11LCD_Display16LCD_CommandgiverEh+0x4a>
+  f4:	00 00       	nop
+	_delay_us(2);
+	LCDER_port &= ~(1<< ENable);                               //setting the pin1 of portB LOW to write
+  f6:	85 b1       	in	r24, 0x05	; 5
+  f8:	8d 7f       	andi	r24, 0xFD	; 253
+  fa:	85 b9       	out	0x05, r24	; 5
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  fc:	8f e9       	ldi	r24, 0x9F	; 159
+  fe:	9f e0       	ldi	r25, 0x0F	; 15
+ 100:	01 97       	sbiw	r24, 0x01	; 1
+ 102:	f1 f7       	brne	.-4      	; 0x100 <_ZN11LCD_Display16LCD_CommandgiverEh+0x5a>
+ 104:	00 c0       	rjmp	.+0      	; 0x106 <_ZN11LCD_Display16LCD_CommandgiverEh+0x60>
+ 106:	00 00       	nop
+ 108:	08 95       	ret
+
+0000010a <_ZN11LCD_Display15LCD_InitializerEv>:
+	_delay_ms(2);
+}
+
+void LCD_Display::LCD_Initializer(){                           // function to output signal towards LCD
+ 10a:	cf 93       	push	r28
+ 10c:	df 93       	push	r29
+ 10e:	ec 01       	movw	r28, r24
+	LCD_Dir_00 = 0xFF;                                         // setting the portB to be in Output mode
+ 110:	8f ef       	ldi	r24, 0xFF	; 255
+ 112:	84 b9       	out	0x04, r24	; 4
+ 114:	8f e3       	ldi	r24, 0x3F	; 63
+ 116:	9c e9       	ldi	r25, 0x9C	; 156
+ 118:	01 97       	sbiw	r24, 0x01	; 1
+ 11a:	f1 f7       	brne	.-4      	; 0x118 <_ZN11LCD_Display15LCD_InitializerEv+0xe>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <_ZN11LCD_Display15LCD_InitializerEv+0x14>
+ 11e:	00 00       	nop
+	_delay_ms(20);
+	
+	LCD_Commandgiver(0x02);                                    //initializes LCD 16x2 in 4-bit mode
+ 120:	62 e0       	ldi	r22, 0x02	; 2
+ 122:	ce 01       	movw	r24, r28
+ 124:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+	LCD_Commandgiver(0x28);                                    // configures LCD in 2-line, 4-bit mode, and 5x8 dots.
+ 128:	68 e2       	ldi	r22, 0x28	; 40
+ 12a:	ce 01       	movw	r24, r28
+ 12c:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+	LCD_Commandgiver(0x0c);                                    //Send any Display ON command
+ 130:	6c e0       	ldi	r22, 0x0C	; 12
+ 132:	ce 01       	movw	r24, r28
+ 134:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+	LCD_Commandgiver(0x06);                                    //increment cursor)
+ 138:	66 e0       	ldi	r22, 0x06	; 6
+ 13a:	ce 01       	movw	r24, r28
+ 13c:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+	LCD_Commandgiver(0x01);                                    //Clear display screen
+ 140:	61 e0       	ldi	r22, 0x01	; 1
+ 142:	ce 01       	movw	r24, r28
+ 144:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+ 148:	8f e9       	ldi	r24, 0x9F	; 159
+ 14a:	9f e0       	ldi	r25, 0x0F	; 15
+ 14c:	01 97       	sbiw	r24, 0x01	; 1
+ 14e:	f1 f7       	brne	.-4      	; 0x14c <_ZN11LCD_Display15LCD_InitializerEv+0x42>
+ 150:	00 c0       	rjmp	.+0      	; 0x152 <_ZN11LCD_Display15LCD_InitializerEv+0x48>
+ 152:	00 00       	nop
+	_delay_ms(2);
+}
+ 154:	df 91       	pop	r29
+ 156:	cf 91       	pop	r28
+ 158:	08 95       	ret
+
+0000015a <_ZN11LCD_Display13LCD_CharacterEh>:
+
+void LCD_Display::LCD_Character( unsigned char data_00)        //function to output characters towards LCD
+{
+	LCDER_port = ( LCDER_port & 0x0F) | (data_00 & 0xF0 );     //Sending upper nibble
+ 15a:	85 b1       	in	r24, 0x05	; 5
+ 15c:	8f 70       	andi	r24, 0x0F	; 15
+ 15e:	96 2f       	mov	r25, r22
+ 160:	90 7f       	andi	r25, 0xF0	; 240
+ 162:	89 2b       	or	r24, r25
+ 164:	85 b9       	out	0x05, r24	; 5
+	LCDER_port |= (1<<Rsel);                                   //setting the pin0 of portB HIGH to read
+ 166:	85 b1       	in	r24, 0x05	; 5
+ 168:	81 60       	ori	r24, 0x01	; 1
+ 16a:	85 b9       	out	0x05, r24	; 5
+	LCDER_port |=(1<<ENable);                                  //setting the pin1 of portB HIGH to read
+ 16c:	85 b1       	in	r24, 0x05	; 5
+ 16e:	82 60       	ori	r24, 0x02	; 2
+ 170:	85 b9       	out	0x05, r24	; 5
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 172:	82 e0       	ldi	r24, 0x02	; 2
+ 174:	8a 95       	dec	r24
+ 176:	f1 f7       	brne	.-4      	; 0x174 <_ZN11LCD_Display13LCD_CharacterEh+0x1a>
+ 178:	00 c0       	rjmp	.+0      	; 0x17a <_ZN11LCD_Display13LCD_CharacterEh+0x20>
+	_delay_us(1);
+	LCDER_port &= ~(1<<ENable);                                //setting the pin1 of portB LOW to write
+ 17a:	85 b1       	in	r24, 0x05	; 5
+ 17c:	8d 7f       	andi	r24, 0xFD	; 253
+ 17e:	85 b9       	out	0x05, r24	; 5
+ 180:	8f e8       	ldi	r24, 0x8F	; 143
+ 182:	91 e0       	ldi	r25, 0x01	; 1
+ 184:	01 97       	sbiw	r24, 0x01	; 1
+ 186:	f1 f7       	brne	.-4      	; 0x184 <_ZN11LCD_Display13LCD_CharacterEh+0x2a>
+ 188:	00 c0       	rjmp	.+0      	; 0x18a <_ZN11LCD_Display13LCD_CharacterEh+0x30>
+ 18a:	00 00       	nop
+	
+	_delay_us(200);
+	
+	
+	LCDER_port = ( LCDER_port & 0x0F) | (data_00 <<4 );        //Sending lower nibble
+ 18c:	85 b1       	in	r24, 0x05	; 5
+ 18e:	90 e1       	ldi	r25, 0x10	; 16
+ 190:	69 9f       	mul	r22, r25
+ 192:	b0 01       	movw	r22, r0
+ 194:	11 24       	eor	r1, r1
+ 196:	8f 70       	andi	r24, 0x0F	; 15
+ 198:	68 2b       	or	r22, r24
+ 19a:	65 b9       	out	0x05, r22	; 5
+	LCDER_port |= (1<< ENable);                                //setting the pin1 of portB HIGH to read
+ 19c:	85 b1       	in	r24, 0x05	; 5
+ 19e:	82 60       	ori	r24, 0x02	; 2
+ 1a0:	85 b9       	out	0x05, r24	; 5
+ 1a2:	82 e0       	ldi	r24, 0x02	; 2
+ 1a4:	8a 95       	dec	r24
+ 1a6:	f1 f7       	brne	.-4      	; 0x1a4 <_ZN11LCD_Display13LCD_CharacterEh+0x4a>
+ 1a8:	00 c0       	rjmp	.+0      	; 0x1aa <_ZN11LCD_Display13LCD_CharacterEh+0x50>
+	_delay_us(1);
+	LCDER_port &= ~(1<<ENable);                                //setting the pin1 of portB LOW to write
+ 1aa:	85 b1       	in	r24, 0x05	; 5
+ 1ac:	8d 7f       	andi	r24, 0xFD	; 253
+ 1ae:	85 b9       	out	0x05, r24	; 5
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1b0:	8f e9       	ldi	r24, 0x9F	; 159
+ 1b2:	9f e0       	ldi	r25, 0x0F	; 15
+ 1b4:	01 97       	sbiw	r24, 0x01	; 1
+ 1b6:	f1 f7       	brne	.-4      	; 0x1b4 <_ZN11LCD_Display13LCD_CharacterEh+0x5a>
+ 1b8:	00 c0       	rjmp	.+0      	; 0x1ba <_ZN11LCD_Display13LCD_CharacterEh+0x60>
+ 1ba:	00 00       	nop
+ 1bc:	08 95       	ret
+
+000001be <_ZN11LCD_Display10LCD_StringEPc>:
+	_delay_ms(2);
+}
+
+void LCD_Display::LCD_String(char *string_00)                  //function to output the set of characters as a string
+{
+ 1be:	ef 92       	push	r14
+ 1c0:	ff 92       	push	r15
+ 1c2:	0f 93       	push	r16
+ 1c4:	1f 93       	push	r17
+ 1c6:	cf 93       	push	r28
+ 1c8:	df 93       	push	r29
+ 1ca:	7c 01       	movw	r14, r24
+ 1cc:	8b 01       	movw	r16, r22
+	for (int ci=0;string_00[ci] != 0; ci++)                    //for loop to accumulate characters to create string
+ 1ce:	c0 e0       	ldi	r28, 0x00	; 0
+ 1d0:	d0 e0       	ldi	r29, 0x00	; 0
+ 1d2:	f8 01       	movw	r30, r16
+ 1d4:	ec 0f       	add	r30, r28
+ 1d6:	fd 1f       	adc	r31, r29
+ 1d8:	60 81       	ld	r22, Z
+ 1da:	66 23       	and	r22, r22
+ 1dc:	29 f0       	breq	.+10     	; 0x1e8 <_ZN11LCD_Display10LCD_StringEPc+0x2a>
+	{
+		LCD_Character (string_00[ci]);                         //calling the above defined function to create the string using characters
+ 1de:	c7 01       	movw	r24, r14
+ 1e0:	0e 94 ad 00 	call	0x15a	; 0x15a <_ZN11LCD_Display13LCD_CharacterEh>
+	_delay_ms(2);
+}
+
+void LCD_Display::LCD_String(char *string_00)                  //function to output the set of characters as a string
+{
+	for (int ci=0;string_00[ci] != 0; ci++)                    //for loop to accumulate characters to create string
+ 1e4:	21 96       	adiw	r28, 0x01	; 1
+ 1e6:	f5 cf       	rjmp	.-22     	; 0x1d2 <_ZN11LCD_Display10LCD_StringEPc+0x14>
+	{
+		LCD_Character (string_00[ci]);                         //calling the above defined function to create the string using characters
+	}
+}
+ 1e8:	df 91       	pop	r29
+ 1ea:	cf 91       	pop	r28
+ 1ec:	1f 91       	pop	r17
+ 1ee:	0f 91       	pop	r16
+ 1f0:	ff 90       	pop	r15
+ 1f2:	ef 90       	pop	r14
+ 1f4:	08 95       	ret
+
+000001f6 <_ZN11LCD_Display9LCD_ClearEv>:
+
+void LCD_Display::LCD_Clear()                                  //function to clear the LCD after displaying the output
+{
+ 1f6:	cf 93       	push	r28
+ 1f8:	df 93       	push	r29
+ 1fa:	ec 01       	movw	r28, r24
+	LCD_Commandgiver(0x01);                                    //Clear display screen
+ 1fc:	61 e0       	ldi	r22, 0x01	; 1
+ 1fe:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+ 202:	8f e9       	ldi	r24, 0x9F	; 159
+ 204:	9f e0       	ldi	r25, 0x0F	; 15
+ 206:	01 97       	sbiw	r24, 0x01	; 1
+ 208:	f1 f7       	brne	.-4      	; 0x206 <_ZN11LCD_Display9LCD_ClearEv+0x10>
+ 20a:	00 c0       	rjmp	.+0      	; 0x20c <_ZN11LCD_Display9LCD_ClearEv+0x16>
+ 20c:	00 00       	nop
+	_delay_ms(2);
+	LCD_Commandgiver(0x80);                                    //Cursor at home position
+ 20e:	60 e8       	ldi	r22, 0x80	; 128
+ 210:	ce 01       	movw	r24, r28
+ 212:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+}
+ 216:	df 91       	pop	r29
+ 218:	cf 91       	pop	r28
+ 21a:	08 95       	ret
+
+0000021c <main>:
+#include "LCD_Display.h"   
+LCD_Display lcd;
+                      
+int main(void)
+{
+	lcd.LCD_Initializer();                                     //Initialization of LCD
+ 21c:	82 e4       	ldi	r24, 0x42	; 66
+ 21e:	91 e0       	ldi	r25, 0x01	; 1
+ 220:	0e 94 85 00 	call	0x10a	; 0x10a <_ZN11LCD_Display15LCD_InitializerEv>
+	DDRD = 0x07;                                               //0x07=0b00000111 set d0,d1,d2 as output pins(LED"s are connected)
+ 224:	87 e0       	ldi	r24, 0x07	; 7
+ 226:	8a b9       	out	0x0a, r24	; 10
+	PORTD=0x38;                                                //0x38=0b00111000 set d3,d4,d5 as high so it can read the value(button's)
+ 228:	88 e3       	ldi	r24, 0x38	; 56
+ 22a:	8b b9       	out	0x0b, r24	; 11
+	
+    while (1) 
+	
+	{
+		if(!(PIND & 0x08))                                     //checks whether the button of d3 is pressed
+ 22c:	4b 99       	sbic	0x09, 3	; 9
+ 22e:	22 c0       	rjmp	.+68     	; 0x274 <main+0x58>
+		{
+			PORTD |= 0x01;                                     //0x01=0b00000001, make d0 as high
+ 230:	8b b1       	in	r24, 0x0b	; 11
+ 232:	81 60       	ori	r24, 0x01	; 1
+ 234:	8b b9       	out	0x0b, r24	; 11
+			lcd.LCD_String("YOU HAVE PRESSED");                //Write string on 1st line of LCD
+ 236:	60 e0       	ldi	r22, 0x00	; 0
+ 238:	71 e0       	ldi	r23, 0x01	; 1
+ 23a:	82 e4       	ldi	r24, 0x42	; 66
+ 23c:	91 e0       	ldi	r25, 0x01	; 1
+ 23e:	0e 94 df 00 	call	0x1be	; 0x1be <_ZN11LCD_Display10LCD_StringEPc>
+			lcd.LCD_Commandgiver(0xC0);                        //Go to 2nd line
+ 242:	60 ec       	ldi	r22, 0xC0	; 192
+ 244:	82 e4       	ldi	r24, 0x42	; 66
+ 246:	91 e0       	ldi	r25, 0x01	; 1
+ 248:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+			lcd.LCD_String("THE RED BUTTON");                  //Write string on 2nd line
+ 24c:	61 e1       	ldi	r22, 0x11	; 17
+ 24e:	71 e0       	ldi	r23, 0x01	; 1
+ 250:	82 e4       	ldi	r24, 0x42	; 66
+ 252:	91 e0       	ldi	r25, 0x01	; 1
+ 254:	0e 94 df 00 	call	0x1be	; 0x1be <_ZN11LCD_Display10LCD_StringEPc>
+ 258:	2f ef       	ldi	r18, 0xFF	; 255
+ 25a:	89 e6       	ldi	r24, 0x69	; 105
+ 25c:	98 e1       	ldi	r25, 0x18	; 24
+ 25e:	21 50       	subi	r18, 0x01	; 1
+ 260:	80 40       	sbci	r24, 0x00	; 0
+ 262:	90 40       	sbci	r25, 0x00	; 0
+ 264:	e1 f7       	brne	.-8      	; 0x25e <main+0x42>
+ 266:	00 c0       	rjmp	.+0      	; 0x268 <main+0x4c>
+ 268:	00 00       	nop
+			_delay_ms(1000);
+			lcd.LCD_Clear();
+ 26a:	82 e4       	ldi	r24, 0x42	; 66
+ 26c:	91 e0       	ldi	r25, 0x01	; 1
+ 26e:	0e 94 fb 00 	call	0x1f6	; 0x1f6 <_ZN11LCD_Display9LCD_ClearEv>
+ 272:	03 c0       	rjmp	.+6      	; 0x27a <main+0x5e>
+		}
+		else
+		{
+			PORTD &= 0xFE;                                     //make d0 as low
+ 274:	8b b1       	in	r24, 0x0b	; 11
+ 276:	8e 7f       	andi	r24, 0xFE	; 254
+ 278:	8b b9       	out	0x0b, r24	; 11
+		}
+		
+		if(!(PIND & 0x10))                                     //checks whether the button of d4 is pressed
+ 27a:	4c 99       	sbic	0x09, 4	; 9
+ 27c:	22 c0       	rjmp	.+68     	; 0x2c2 <main+0xa6>
+		{
+			PORTD |= 0x02;                                     //0x02=0b00000010, make d1 as high
+ 27e:	8b b1       	in	r24, 0x0b	; 11
+ 280:	82 60       	ori	r24, 0x02	; 2
+ 282:	8b b9       	out	0x0b, r24	; 11
+			lcd.LCD_String("YOU HAVE PRESSED");                //Write string on 1st line of LCD
+ 284:	60 e0       	ldi	r22, 0x00	; 0
+ 286:	71 e0       	ldi	r23, 0x01	; 1
+ 288:	82 e4       	ldi	r24, 0x42	; 66
+ 28a:	91 e0       	ldi	r25, 0x01	; 1
+ 28c:	0e 94 df 00 	call	0x1be	; 0x1be <_ZN11LCD_Display10LCD_StringEPc>
+			lcd.LCD_Commandgiver(0xC0);                        //Go to 2nd line
+ 290:	60 ec       	ldi	r22, 0xC0	; 192
+ 292:	82 e4       	ldi	r24, 0x42	; 66
+ 294:	91 e0       	ldi	r25, 0x01	; 1
+ 296:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+			lcd.LCD_String("THE BLUE BUTTON");                 //Write string on 2nd line
+ 29a:	60 e2       	ldi	r22, 0x20	; 32
+ 29c:	71 e0       	ldi	r23, 0x01	; 1
+ 29e:	82 e4       	ldi	r24, 0x42	; 66
+ 2a0:	91 e0       	ldi	r25, 0x01	; 1
+ 2a2:	0e 94 df 00 	call	0x1be	; 0x1be <_ZN11LCD_Display10LCD_StringEPc>
+ 2a6:	2f ef       	ldi	r18, 0xFF	; 255
+ 2a8:	89 e6       	ldi	r24, 0x69	; 105
+ 2aa:	98 e1       	ldi	r25, 0x18	; 24
+ 2ac:	21 50       	subi	r18, 0x01	; 1
+ 2ae:	80 40       	sbci	r24, 0x00	; 0
+ 2b0:	90 40       	sbci	r25, 0x00	; 0
+ 2b2:	e1 f7       	brne	.-8      	; 0x2ac <main+0x90>
+ 2b4:	00 c0       	rjmp	.+0      	; 0x2b6 <main+0x9a>
+ 2b6:	00 00       	nop
+			_delay_ms(1000);
+			lcd.LCD_Clear();
+ 2b8:	82 e4       	ldi	r24, 0x42	; 66
+ 2ba:	91 e0       	ldi	r25, 0x01	; 1
+ 2bc:	0e 94 fb 00 	call	0x1f6	; 0x1f6 <_ZN11LCD_Display9LCD_ClearEv>
+ 2c0:	03 c0       	rjmp	.+6      	; 0x2c8 <main+0xac>
+		}
+		else
+		{
+			PORTD &= 0xFD;                                     //make d1 as low
+ 2c2:	8b b1       	in	r24, 0x0b	; 11
+ 2c4:	8d 7f       	andi	r24, 0xFD	; 253
+ 2c6:	8b b9       	out	0x0b, r24	; 11
+		}
+		
+		if(!(PIND & 0x20))                                     //checks whether the button of d5 is pressed
+ 2c8:	4d 99       	sbic	0x09, 5	; 9
+ 2ca:	22 c0       	rjmp	.+68     	; 0x310 <main+0xf4>
+		{
+			PORTD |= 0x04;                                     //0x04=0b00000100, make d2 as high
+ 2cc:	8b b1       	in	r24, 0x0b	; 11
+ 2ce:	84 60       	ori	r24, 0x04	; 4
+ 2d0:	8b b9       	out	0x0b, r24	; 11
+			lcd.LCD_String("YOU HAVE PRESSED");                //Write string on 1st line of LCD
+ 2d2:	60 e0       	ldi	r22, 0x00	; 0
+ 2d4:	71 e0       	ldi	r23, 0x01	; 1
+ 2d6:	82 e4       	ldi	r24, 0x42	; 66
+ 2d8:	91 e0       	ldi	r25, 0x01	; 1
+ 2da:	0e 94 df 00 	call	0x1be	; 0x1be <_ZN11LCD_Display10LCD_StringEPc>
+			lcd.LCD_Commandgiver(0xC0);                        //Go to 2nd line
+ 2de:	60 ec       	ldi	r22, 0xC0	; 192
+ 2e0:	82 e4       	ldi	r24, 0x42	; 66
+ 2e2:	91 e0       	ldi	r25, 0x01	; 1
+ 2e4:	0e 94 53 00 	call	0xa6	; 0xa6 <_ZN11LCD_Display16LCD_CommandgiverEh>
+			lcd.LCD_String("THE GREEN BUTTON");                //Write string on 2nd line
+ 2e8:	60 e3       	ldi	r22, 0x30	; 48
+ 2ea:	71 e0       	ldi	r23, 0x01	; 1
+ 2ec:	82 e4       	ldi	r24, 0x42	; 66
+ 2ee:	91 e0       	ldi	r25, 0x01	; 1
+ 2f0:	0e 94 df 00 	call	0x1be	; 0x1be <_ZN11LCD_Display10LCD_StringEPc>
+ 2f4:	2f ef       	ldi	r18, 0xFF	; 255
+ 2f6:	89 e6       	ldi	r24, 0x69	; 105
+ 2f8:	98 e1       	ldi	r25, 0x18	; 24
+ 2fa:	21 50       	subi	r18, 0x01	; 1
+ 2fc:	80 40       	sbci	r24, 0x00	; 0
+ 2fe:	90 40       	sbci	r25, 0x00	; 0
+ 300:	e1 f7       	brne	.-8      	; 0x2fa <main+0xde>
+ 302:	00 c0       	rjmp	.+0      	; 0x304 <main+0xe8>
+ 304:	00 00       	nop
+			_delay_ms(1000);
+			lcd.LCD_Clear();
+ 306:	82 e4       	ldi	r24, 0x42	; 66
+ 308:	91 e0       	ldi	r25, 0x01	; 1
+ 30a:	0e 94 fb 00 	call	0x1f6	; 0x1f6 <_ZN11LCD_Display9LCD_ClearEv>
+ 30e:	8e cf       	rjmp	.-228    	; 0x22c <main+0x10>
+		}
+		else
+		{
+			PORTD &= 0xFB;                                      //make d2 as low
+ 310:	8b b1       	in	r24, 0x0b	; 11
+ 312:	8b 7f       	andi	r24, 0xFB	; 251
+ 314:	8b b9       	out	0x0b, r24	; 11
+ 316:	8a cf       	rjmp	.-236    	; 0x22c <main+0x10>
+
+00000318 <_exit>:
+ 318:	f8 94       	cli
+
+0000031a <__stop_program>:
+ 31a:	ff cf       	rjmp	.-2      	; 0x31a <__stop_program>

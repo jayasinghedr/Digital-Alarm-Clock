@@ -42,7 +42,6 @@ C_SRCS +=  \
 ../Get_key.cpp \
 ../LCD_Display.cpp \
 ../main.cpp \
-../menu.cpp \
 ../music_notations.cpp
 
 
@@ -58,7 +57,6 @@ ds1307.o \
 Get_key.o \
 LCD_Display.o \
 main.o \
-menu.o \
 music_notations.o
 
 OBJS_AS_ARGS +=  \
@@ -67,7 +65,6 @@ ds1307.o \
 Get_key.o \
 LCD_Display.o \
 main.o \
-menu.o \
 music_notations.o
 
 C_DEPS +=  \
@@ -76,7 +73,6 @@ ds1307.d \
 Get_key.d \
 LCD_Display.d \
 main.d \
-menu.d \
 music_notations.d
 
 C_DEPS_AS_ARGS +=  \
@@ -85,7 +81,6 @@ ds1307.d \
 Get_key.d \
 LCD_Display.d \
 main.d \
-menu.d \
 music_notations.d
 
 OUTPUT_FILE_PATH +=alarm_clock.elf
@@ -131,13 +126,6 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./main.o: .././main.cpp
-	@echo Building file: $<
-	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-./menu.o: .././menu.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

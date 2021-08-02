@@ -180,12 +180,6 @@
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="menu.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menu.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="music_notations.cpp">
       <SubType>compile</SubType>
     </Compile>

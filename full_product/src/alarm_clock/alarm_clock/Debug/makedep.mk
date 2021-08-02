@@ -12,7 +12,5 @@ LCD_Display.cpp
 
 main.cpp
 
-menu.cpp
-
 music_notations.cpp
 

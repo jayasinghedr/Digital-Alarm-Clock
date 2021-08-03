@@ -48,6 +48,7 @@ int currentscreenset23 = 0;
 const int numofscreens24 = 1;
 int currentscreenset24 = 0;
 
+
 //char initialdis[][16]={"Welcome !","menu"};
 char Menu[5][2][16] = {
 	{"New Alarm","OK         BACK"},
@@ -166,6 +167,14 @@ void display(){
 		
 		_delay_ms(1000);
 	}
+	else if ((set==3) & (currentscreenset1==1) ){//& (currentscreenset21 == 0 or 1 or 2 or 3 or 4)){
+		lcd.LCD_Clear();
+		lcd.LCD_String("     16:30       ");                //Write string on 1st line of LCD
+		lcd.LCD_Commandgiver(0xC0);              //Go to 2nd line
+		lcd.LCD_String("OK        DELETE");
+		_delay_ms(1000);
+		
+	}
 	else if ((set == 2) & (currentscreenset1 == 2)){
 		alarmclock.setTimetoRTC();
 	}
@@ -198,6 +207,7 @@ void display(){
 		lcd.LCD_String(reset[0]);
 		_delay_ms(1000);
 	}
+	
 }
 
 void upbtn(){
@@ -261,7 +271,7 @@ void dwnbtn(){
 
 void okbtn(){
 	if (PINC & (1<<Ok)){
-		if (set==2){
+		if (set==3){
 			set = 0;
 		display();}
 		else {
@@ -299,10 +309,11 @@ void checkAlarm(){
 			currentHr = DS1307.read_time(02);
 			currentMin = DS1307.read_time(01);
 			if ((currentHr == alarmHr) & (currentMin == alarmMin)  /*& ~(stop)*/){
-				//lcd.LCD_Clear();
+				lcd.LCD_Clear();
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
-				PORTD |= (1<<PORTD7);
+				//PORTD |= (1<<PORTD7);
+				music.tone(currentscreenset23);
 				currentAlarm = i;
 			}
 			else{

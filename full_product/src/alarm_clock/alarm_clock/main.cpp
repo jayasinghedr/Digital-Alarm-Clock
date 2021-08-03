@@ -82,11 +82,10 @@ char alarmtone[5][2][16] = {
 };
 char reset[][16] = {"reset all"};
 
-int allAlarms[10][2];	//saves all the alarms in int values
+int allAlarms[10][3];	//saves all the alarms in int values
 
 int alarmCount = 0;
-
-//bool stop=false;	
+bool stop=false;	
 
 
 int main(void)
@@ -135,20 +134,21 @@ void display(){
 		int* alarmTime = alarmclock.setNewAlarm();
 		allAlarms[alarmCount][0] = alarmTime[0];
 		allAlarms[alarmCount][1] = alarmTime[1];
+		allAlarms[alarmCount][2] = 1;
 
 		txtHr = alarmclock.int_to_char(alarmTime[0]);
 		allAlarmsMenu[alarmCount][0][7] = txtHr[0]; //optional
 		allAlarmsMenu[alarmCount][0][8] = txtHr[1]; //
 
-		alarmChangeList[alarmCount][0][0] = txtHr[0]; 
-		alarmChangeList[alarmCount][0][1] = txtHr[1];
+		//alarmChangeList[alarmCount][0][0] = txtHr[0]; 
+		//alarmChangeList[alarmCount][0][1] = txtHr[1];
 
 		txtMin = alarmclock.int_to_char(alarmTime[1]);
 		allAlarmsMenu[alarmCount][0][10] = txtMin[0]; // optional
 		allAlarmsMenu[alarmCount][0][11] = txtMin[1]; //
 
-		alarmChangeList[alarmCount][0][3] = txtMin[0];
-		alarmChangeList[alarmCount][0][4] = txtMin[1];
+		//alarmChangeList[alarmCount][0][3] = txtMin[0];
+		//alarmChangeList[alarmCount][0][4] = txtMin[1];
 
 		alarmCount += 1;
 	}
@@ -284,50 +284,45 @@ void backbtn(){
 }
 
 void checkAlarm(){
-	int currentHr, currentMin, alarmHr, alarmMin, currentAlarm;
+	int currentHr, currentMin, alarmHr, alarmMin, currentAlarm, alarmCheck;
+	bool alarm;
 	//checking time and ringing an alarm
 	for (int i=0; i<alarmCount;i++){
 		alarmHr = allAlarms[i][0];
 		alarmMin = allAlarms[i][1];
+		alarmCheck = allAlarms[i][2]; //if the alarm is already played this value will be 0 otherwise 1
 
-		/*
-		if (((currentHr != alarmHr) || (currentMin != alarmMin)) & (currentAlarm==i)){
+		currentHr = DS1307.read_time(02);
+		currentMin = DS1307.read_time(01);
+
+		if (((currentHr != alarmHr) || (currentMin != alarmMin)) /*& (currentAlarm==i)*/){
+			allAlarms[i][2] = 1;
 			stop = false;
-		}	*/
+		}
 		
 		while (1){
 			currentHr = DS1307.read_time(02);
 			currentMin = DS1307.read_time(01);
-			if ((currentHr == alarmHr) & (currentMin == alarmMin)  /*& ~(stop)*/){
+			if ((currentHr == alarmHr) & (currentMin == alarmMin)  & ~(stop) & (alarmCheck==1)){
 				//lcd.LCD_Clear();
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
 				PORTD |= (1<<PORTD7);
+				allAlarms[i][2] = 0;
 				currentAlarm = i;
+				alarm = true;
 			}
 			else{
-				PORTD &= ~(1<<PORTD7);
+				if(alarm){lcd.LCD_Clear();alarm=false;PORTD &= ~(1<<PORTD7);set=0;}
 				break;
 			}
-			/*
-			if ((PINC & (1<<Ok))){
+			
+			if (PINC & (1<<Ok)){
 				PORTD &= ~(1<<PORTD7);
 				lcd.LCD_Clear();
 				stop = true;
 				break;
 			}
-			*/			
 		}
-	}
-}
-
-void changeAlarm(){
-	// not finished yet
-	if (PINC & (1<<Ok)){
-		lcd.LCD_Clear();
-		lcd.LCD_String(alarmChangeList[currentscreenset21][0]);
-		lcd.LCD_Commandgiver(0xC0);
-		lcd.LCD_String(alarmChangeList[currentscreenset21][1]);
-		_delay_ms(1000);
 	}
 } 

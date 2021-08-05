@@ -45,8 +45,8 @@
  }
 
  void AlarmClock::displayTime(){
+
 	 //read current time from RTC
-	 while (1){
 	 char* str_sec;
 	 char* str_min;
 	 char* str_hr;
@@ -72,13 +72,9 @@
 	 time1[11] = str_sec[1];
 	 
 	 lcd_1.LCD_String_xy(0, 0, time1);       //Write string on 1st line of LCD
-	 lcd_1.LCD_String_xy(1, 0, "MENU");		//Write string on 2nd line
+	 lcd_1.LCD_String_xy(1, 0, "MENU            ");		//Write string on 2nd line
 	 _delay_ms(1000);
-	 if (PINC & (1<<Ok)){
-		 break;
-	 }
-	 }
-	 }
+}
 
  void AlarmClock::setTimetoRTC(){
 	
@@ -137,9 +133,10 @@
 	rtc.year = 0x21;
 	lcd_1.LCD_Clear();
 	ds1307_1.set_time(&rtc);
-	lcd_1.LCD_String_xy(0, 0, "Time Set");
-	_delay_ms(500);
-	lcd_1.LCD_Clear();
+	lcd_1.LCD_String_xy(0, 4, "Time Set");
+	lcd_1.LCD_String_xy(1, 0, "OK");
+	//_delay_ms(500);
+	//lcd_1.LCD_Clear();
  }
 
  int* AlarmClock::setNewAlarm(){

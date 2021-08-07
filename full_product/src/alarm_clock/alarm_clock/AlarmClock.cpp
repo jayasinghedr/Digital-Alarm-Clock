@@ -45,8 +45,8 @@
  }
 
  void AlarmClock::displayTime(){
+
 	 //read current time from RTC
-	 while (1){
 	 char* str_sec;
 	 char* str_min;
 	 char* str_hr;
@@ -72,13 +72,9 @@
 	 time1[11] = str_sec[1];
 	 
 	 lcd_1.LCD_String_xy(0, 0, time1);       //Write string on 1st line of LCD
-	 lcd_1.LCD_String_xy(1, 0, "MENU");		//Write string on 2nd line
+	 lcd_1.LCD_String_xy(1, 0, "MENU            ");		//Write string on 2nd line
 	 _delay_ms(1000);
-	 if (PINC & (1<<Ok)){
-		 break;
-	 }
-	 }
-	 }
+}
 
  void AlarmClock::setTimetoRTC(){
 	
@@ -96,8 +92,7 @@
 
 	for(uint8_t i=0;i<7;i++)
 	{
-		while(1)
-		{
+		while(1){
 			key = keypad_1.GetKey();
 			if (key == 1) {lcd_1.LCD_String_xy(0,n[i],"1");break;}
 			if (key == 2) {lcd_1.LCD_String_xy(0,n[i],"2");break;}
@@ -109,9 +104,8 @@
 			if (key == 8) {lcd_1.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd_1.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd_1.LCD_String_xy(0,n[i],"0");key=0;break;}
-			//if (key == 10) {lcd.LCD_String_xy(0,n[i],"P");break;}
-			if (PINC & (1<<Ok)){i=8; break;}
-			//if (i == 6){i = 0;}
+			if (!(PINC & (1<<Ok))){i=8; break;}
+			_delay_ms(200);
 		}
 
 		if (i == 0){hr+=key*10;}
@@ -137,9 +131,10 @@
 	rtc.year = 0x21;
 	lcd_1.LCD_Clear();
 	ds1307_1.set_time(&rtc);
-	lcd_1.LCD_String_xy(0, 0, "Time Set");
-	_delay_ms(500);
-	lcd_1.LCD_Clear();
+	lcd_1.LCD_String_xy(0, 4, "Time Set");
+	lcd_1.LCD_String_xy(1, 0, "OK");
+	//_delay_ms(500);
+	//lcd_1.LCD_Clear();
  }
 
  int* AlarmClock::setNewAlarm(){
@@ -154,8 +149,7 @@
 	_delay_ms(200);	
 	for(uint8_t i=0;i<5;i++)
 	{
-		while(1)
-		{
+		while(1){
 			key = keypad_1.GetKey();
 			if (key == 1) {lcd_1.LCD_String_xy(0,n[i],"1");break;}
 			if (key == 2) {lcd_1.LCD_String_xy(0,n[i],"2");break;}
@@ -167,8 +161,9 @@
 			if (key == 8) {lcd_1.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd_1.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd_1.LCD_String_xy(0,n[i],"0");key=0;break;}
-			if (PINC & (1<<Ok)){i=8; break;}
+			if (!(PINC & (1<<Ok))){i=8; break;}
 			//if (key == 10) {lcd.LCD_String_xy(0,n[i],"P");break;}
+			_delay_ms(200);
 		}
 
 		if (i == 0){hr_al+=key*10;}

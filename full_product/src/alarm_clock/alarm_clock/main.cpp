@@ -313,21 +313,22 @@ void checkAlarm(){
 		while (1){
 			currentHr = DS1307.read_time(02);
 			currentMin = DS1307.read_time(01);
-<<<<<<< HEAD
-			if ((currentHr == alarmHr) & (currentMin == alarmMin)  /*& ~(stop)*/){
+
+			/*if ((currentHr == alarmHr) & (currentMin == alarmMin)  ){
 				lcd.LCD_Clear();
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
 				//PORTD |= (1<<PORTD7);
-				music.tone(currentscreenset23);
-=======
+				music.tone(currentscreenset23);*/
+
 			if ((currentHr == alarmHr) & (currentMin == alarmMin)  & ~(stop) & (alarmCheck==1)){
 				//lcd.LCD_Clear();
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
-				PORTD |= (1<<PORTD7);
+				//PORTD |= (1<<PORTD7);
+				music.tone(currentscreenset23);
 				allAlarms[i][2] = 0;
->>>>>>> master
+
 				currentAlarm = i;
 				alarm = true;
 			}

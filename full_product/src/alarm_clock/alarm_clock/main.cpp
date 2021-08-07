@@ -77,21 +77,21 @@ bool stop = false;
 
 int main(void)
 {
-	DDRD = 0b10000000;
+	DDRD = (1<<PORTD7);
 	PORTC |= (1<<PORTC0) | (1<<PORTC1) | (1<<PORTC2) | (1<<PORTC3);
 	ds1307::rtc_t rtc;
 
 	//Setting time to the RTC
-	rtc.seconds =  0x00; //
+	rtc.seconds =  0x00; 
 	rtc.minute =  0x00;
-	rtc.hour = 0x10;	
-	rtc.weekDay = 0x05;
+	rtc.hour = 0x10;	//Initial Time set to 10:00:00 
+	rtc.weekDay = 0x02;
 	rtc.date = 0x06;
 	rtc.month = 0x08;
-	rtc.year = 0x21;	//27th May 2021
-	
+	rtc.year = 0x21; //10th Aug 2021 Tue
 	DS1307.set_time(&rtc);
-	lcd.LCD_Initializer();	//initialize the display (PORTB)
+
+	lcd.LCD_Initializer();	//initialize the display to PORTB
 
 	while (1)
 	{
@@ -126,7 +126,9 @@ void display(){
 	else if ((set==3) & (currentscreenset1==0) ){//& (currentscreenset21 == 0 or 1 or 2 or 3 or 4)){		lcd.LCD_Clear();		changeAlarm(currentscreenset21);		_delay_ms(500);
 	}
 	else if ((set == 2) & (currentscreenset1 == 1)){
-		alarmclock.setTimetoRTC();
+		bool go;
+		go = alarmclock.setTimetoRTC();
+		if (go){set=1;}
 		_delay_ms(500);
 	}
 	else if ((set == 2) & (currentscreenset1 == 2)){
@@ -271,7 +273,6 @@ void checkAlarm(){
 			currentHr = DS1307.read_time(02);
 			currentMin = DS1307.read_time(01);
 			if ((currentHr == alarmHr) & (currentMin == alarmMin)  & ~(stop) & (alarmCheck==1) & (alOnOff==1)){
-				//lcd.LCD_Clear();
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
 
@@ -280,13 +281,11 @@ void checkAlarm(){
 				alarm = true;
 			}
 			else{
-				if(alarm){lcd.LCD_Clear();alarm=false;/*PORTD &= ~(1<<PORTD7)*/;set=0;}
+				if(alarm){lcd.LCD_Clear();alarm=false;set=0;}
 				break;
 			}
 			
 			if (!(PINC & (1<<Ok))){
-
-				//PORTD &= ~(1<<PORTD7);
 				lcd.LCD_Clear();
 				stop = true;
 				break;
@@ -297,8 +296,7 @@ void checkAlarm(){
 
 void changeAlarm(int alPos){
 	//alPos takes the position of the alarm that needs to be changed
-
-	//--------------------Changing Alarms------------------------------
+	//--------------------Changing Alarms---------------------------
 	bool delAlarm = false;
 	uint8_t key;
 	
@@ -333,11 +331,11 @@ void changeAlarm(int alPos){
 				allAlarms[alPos][2] = 0;
 				allAlarms[alPos][3] = 0; //set alarm state as OFF
 
-				allAlarmsMenu[alPos][7] = '_'; //problem here 
-				allAlarmsMenu[alPos][8] = '_'; 
-				//allAlarmsMenu[alPos][9] = 'F';
-				allAlarmsMenu[alPos][10] = '_';
-				allAlarmsMenu[alPos][11] = '_';
+				allAlarmsMenu[alPos][7] = ' '; //problem here 
+				allAlarmsMenu[alPos][8] = ' '; 
+				allAlarmsMenu[alPos][9] = ' ';
+				allAlarmsMenu[alPos][10] = ' ';
+				allAlarmsMenu[alPos][11] = ' ';
  
 				alarmChangeList[alPos][0] = '0'; 
 				alarmChangeList[alPos][1] = '0'; 
@@ -377,9 +375,10 @@ void changeAlarm(int alPos){
 
 		alarmChangeList[alPos][3] = txtMin[0];
 		alarmChangeList[alPos][4] = txtMin[1];	
+
 		allAlarmsMenu[alPos][10] = txtMin[0];
 		allAlarmsMenu[alPos][11] = txtMin[1];
-
 		alarmCount =+ 1;
+		set = 3;
 	} 
 }

@@ -17,7 +17,7 @@ class AlarmClock{
 	public:
 	char* int_to_char(int num);
 	void displayTime();	
-	void setTimetoRTC();
+	bool setTimetoRTC();
 	int* setNewAlarm();
 };
 

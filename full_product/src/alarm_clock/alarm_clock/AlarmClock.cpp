@@ -76,7 +76,7 @@
 	 _delay_ms(1000);
 }
 
- void AlarmClock::setTimetoRTC(){
+ bool AlarmClock::setTimetoRTC(){
 	
 	ds1307::rtc_t rtc;
 	uint8_t hour, seconds, minutes, key;
@@ -88,11 +88,20 @@
 	int n[6] = {4, 5, 7, 8, 10, 11};
 	lcd_1.LCD_Clear();
 	lcd_1.LCD_String_xy(0, 4, time);
-	_delay_ms(500);
+	bool goBack = false;
 
 	for(uint8_t i=0;i<7;i++)
 	{
+		
 		while(1){
+			if(i==0){
+				lcd_1.LCD_String_xy(1, 0,"OK          BACK");
+				if(!((PINC & (1<<Back)))){goBack = true;i=8;break;}
+			}
+			else{
+				lcd_1.LCD_String_xy(1, 0,"OK              ");
+			}
+
 			key = keypad_1.GetKey();
 			if (key == 1) {lcd_1.LCD_String_xy(0,n[i],"1");break;}
 			if (key == 2) {lcd_1.LCD_String_xy(0,n[i],"2");break;}
@@ -105,6 +114,7 @@
 			if (key == 9) {lcd_1.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd_1.LCD_String_xy(0,n[i],"0");key=0;break;}
 			if (!(PINC & (1<<Ok))){i=8; break;}
+
 			_delay_ms(200);
 		}
 
@@ -116,25 +126,25 @@
 		if (i == 5){sec+=key;}
 
 	}
-	
-	hour = ds1307_1.dec_to_bcd(hr);
-	minutes = ds1307_1.dec_to_bcd(min);
-	seconds = ds1307_1.dec_to_bcd(sec);
+	if (~(goBack)){
+		hour = ds1307_1.dec_to_bcd(hr);
+		minutes = ds1307_1.dec_to_bcd(min);
+		seconds = ds1307_1.dec_to_bcd(sec);
 
-	// Setting time to the RTC
-	rtc.seconds =  seconds;
-	rtc.minute =  minutes;
-	rtc.hour = hour;
-	rtc.weekDay = 0x07;
-	rtc.date = 0x20;
-	rtc.month = 0x06;
-	rtc.year = 0x21;
-	lcd_1.LCD_Clear();
-	ds1307_1.set_time(&rtc);
-	lcd_1.LCD_String_xy(0, 4, "Time Set");
-	lcd_1.LCD_String_xy(1, 0, "OK");
-	//_delay_ms(500);
-	//lcd_1.LCD_Clear();
+		// Setting time to the RTC
+		rtc.seconds =  seconds;
+		rtc.minute =  minutes;
+		rtc.hour = hour;
+		rtc.weekDay = 0x07;
+		rtc.date = 0x20;
+		rtc.month = 0x06;
+		rtc.year = 0x21;
+		lcd_1.LCD_Clear();
+		ds1307_1.set_time(&rtc);
+		lcd_1.LCD_String_xy(0, 4, "Time Set");
+		lcd_1.LCD_String_xy(1, 0, "OK");
+	}
+	return goBack;
  }
 
  int* AlarmClock::setNewAlarm(){
@@ -162,7 +172,6 @@
 			if (key == 9) {lcd_1.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd_1.LCD_String_xy(0,n[i],"0");key=0;break;}
 			if (!(PINC & (1<<Ok))){i=8; break;}
-			//if (key == 10) {lcd.LCD_String_xy(0,n[i],"P");break;}
 			_delay_ms(200);
 		}
 

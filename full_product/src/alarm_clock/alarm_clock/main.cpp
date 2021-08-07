@@ -35,28 +35,27 @@ AlarmClock alarmclock;
 music_notations music;
 
 int set = 0;
-const int numofscreens1 = 5;
+const int numofscreens1 = 4;
 int currentscreenset1 = 0;
-const int numofscreens20 = 1;
+const int numofscreens20 = 5;
 int currentscreenset20 = 0;
-const int numofscreens21 = 5;
+const int numofscreens21 = 1;
 int currentscreenset21 = 0;
-const int numofscreens22 = 1;
+const int numofscreens22 = 5;
 int currentscreenset22 = 0;
-const int numofscreens23 = 5;
+const int numofscreens23 = 1;
 int currentscreenset23 = 0;
-const int numofscreens24 = 1;
-int currentscreenset24 = 0;
+//const int numofscreens24 = 1;
+//int currentscreenset24 = 0;
 
-char Menu[5][2][16] = {
-	{"New Alarm","OK         BACK"},
-	{"All Alarms","OK         BACK"},
+char Menu[4][2][16] = {
+	{"Set Alarms","OK         BACK"},
 	{"Set Time","OK         BACK"},
 	{"Alarm Tone","OK         BACK"},
 	{"Reset","OK         BACK"}
 };
 
-char allAlarmsMenu[5][16] = {"Alarm1 OFF", "Alarm2 OFF", "Alarm3 OFF", "Alarm4 OFF","Alarm5 OFF"};
+char allAlarmsMenu[5][16] = {"Alarm1 __:__", "Alarm2 __:__", "Alarm3 __:__", "Alarm4 __:__","Alarm5 __:__"};
 
 char alarmChangeList[5][16] = {"00:00", "00:00", "00:00", "00:00", "00:00"};
 
@@ -114,33 +113,8 @@ void display(){
 		lcd.LCD_String(Menu[currentscreenset1][1]);
 		_delay_ms(500);
 	}
-	else if ((set == 2) & (currentscreenset1 == 0)){
-		char* txtHr;
-		char* txtMin;
-		lcd.LCD_Clear();
-		int* alarmTime = alarmclock.setNewAlarm();
-		allAlarms[alarmCount][0] = alarmTime[0];
-		allAlarms[alarmCount][1] = alarmTime[1];
-		allAlarms[alarmCount][2] = 1;
-		allAlarms[alarmCount][3] = 1;
-
-		txtHr = alarmclock.int_to_char(alarmTime[0]);
-		allAlarmsMenu[alarmCount][7] = 'O'; //optional
-		allAlarmsMenu[alarmCount][8] = 'N'; //
-		allAlarmsMenu[alarmCount][9] = ' ';
-
-		alarmChangeList[alarmCount][0] = txtHr[0]; 
-		alarmChangeList[alarmCount][1] = txtHr[1];
-
-		txtMin = alarmclock.int_to_char(alarmTime[1]);
-
-		alarmChangeList[alarmCount][3] = txtMin[0];
-		alarmChangeList[alarmCount][4] = txtMin[1];
-
-		alarmCount += 1;
-	}
 	
-	else if ((set == 2) & (currentscreenset1 == 1)){
+	else if ((set == 2) & (currentscreenset1 == 0)){
 		//All alarms menu
 		lcd.LCD_Clear();
 		lcd.LCD_String(allAlarmsMenu[currentscreenset21]);  
@@ -149,13 +123,13 @@ void display(){
 
 		_delay_ms(500);
 	}
-	else if ((set==3) & (currentscreenset1==1) ){//& (currentscreenset21 == 0 or 1 or 2 or 3 or 4)){		lcd.LCD_Clear();		changeAlarm(currentscreenset21);		_delay_ms(500);
+	else if ((set==3) & (currentscreenset1==0) ){//& (currentscreenset21 == 0 or 1 or 2 or 3 or 4)){		lcd.LCD_Clear();		changeAlarm(currentscreenset21);		_delay_ms(500);
 	}
-	else if ((set == 2) & (currentscreenset1 == 2)){
+	else if ((set == 2) & (currentscreenset1 == 1)){
 		alarmclock.setTimetoRTC();
 		_delay_ms(500);
 	}
-	else if ((set == 2) & (currentscreenset1 == 3)){
+	else if ((set == 2) & (currentscreenset1 == 2)){
 		lcd.LCD_Clear();
 		lcd.LCD_String(alarmtone[currentscreenset23][0]);                //Write string on 1st line of LCD
 		lcd.LCD_Commandgiver(0xC0);                        //Go to 2nd line
@@ -177,7 +151,7 @@ void display(){
 			music.tone(4);
 		}
 	}
-	else if ((set == 2) & (currentscreenset1 == 4)){
+	else if ((set == 2) & (currentscreenset1 == 3)){
 		lcd.LCD_Clear();
 		lcd.LCD_String(reset[0]);                //Write string on 1st line of LCD
 		lcd.LCD_Commandgiver(0xC0);              //Go to 2nd line
@@ -197,19 +171,19 @@ void upbtn(){
 			currentscreenset1 -= 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==1) & (currentscreenset21 == 0)){
+		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset21 == 0)){
 			currentscreenset21=numofscreens21-1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==1) & (currentscreenset21 != 0)){
+		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset21 != 0)){
 			currentscreenset21 -= 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==3) & (currentscreenset23 == 0)){
+		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 == 0)){
 			currentscreenset23=numofscreens21-1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==3) & (currentscreenset23 != 0)){
+		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 != 0)){
 			currentscreenset23 -= 1;
 			display();
 		}
@@ -217,30 +191,30 @@ void upbtn(){
 }
 
 void dwnbtn(){
-	_delay_ms(50);
 	if (!(PINC &(1<<Down))){
-		if ((set == 1) & (currentscreenset1==4)){
+		_delay_ms(50);
+		if ((set == 1) & (currentscreenset1==3)){
 			currentscreenset1=0;
 			display();
 		}
-		else if ((set == 1) & (currentscreenset1 != 4)){
+		else if ((set == 1) & (currentscreenset1 != 3)){
 			_delay_ms(10);
 			currentscreenset1 += 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==1) & (currentscreenset21 == 4)){
+		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset21 == 4)){
 			currentscreenset21=0;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==1) & (currentscreenset23 != 4)){
+		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset23 != 4)){
 			currentscreenset21 += 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==3) & (currentscreenset23 == 4)){
+		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 == 4)){
 			currentscreenset23 = 0;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==3) & (currentscreenset23 != 4)){
+		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 != 4)){
 			currentscreenset23 += 1;
 			display();
 		}
@@ -248,8 +222,9 @@ void dwnbtn(){
 }
 
 void okbtn(){
-	_delay_ms(50);
+	
 	if (!(PINC & (1<<Ok))){	
+		_delay_ms(200);
 		if (set==3){
 			set = 0;
 		display();}
@@ -260,8 +235,9 @@ void okbtn(){
 }
 
 void backbtn(){
-	_delay_ms(50);
+	
 	if (!(PINC &(1<<Back))){
+		_delay_ms(50);
 		if (set == 0){
 			set = 0;
 			display();
@@ -277,7 +253,7 @@ void checkAlarm(){
 	int currentHr, currentMin, alarmHr, alarmMin, alarmCheck, alOnOff;
 	bool alarm;
 	//checking time and ringing an alarm
-	for (int i=0; i<alarmCount;i++){
+	for (int i=0; i<5;i++){
 		alarmHr = allAlarms[i][0];
 		alarmMin = allAlarms[i][1];
 		alarmCheck = allAlarms[i][2]; //only used within this loop to check of the alarm was turned on
@@ -298,8 +274,8 @@ void checkAlarm(){
 				//lcd.LCD_Clear();
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
-				//PORTD |= (1<<PORTD7);
-				music.tone(0);
+
+				music.tone(currentscreenset23);
 				allAlarms[i][2] = 0;
 				alarm = true;
 			}
@@ -345,7 +321,7 @@ void changeAlarm(int alPos){
 			if (key == 4) {lcd.LCD_String_xy(0,n[i],"4");break;}
 			if (key == 5) {lcd.LCD_String_xy(0,n[i],"5");break;}
 			if (key == 6) {lcd.LCD_String_xy(0,n[i],"6");break;}
-			if (key == 7) {lcd.LCD_String_xy(0,n[i],"7");break;}
+			if (key == 7) {lcd.LCD_String_xy(0,n[i],"7");break;} 
 			if (key == 8) {lcd.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd.LCD_String_xy(0,n[i],"0");key=0;break;}
@@ -357,9 +333,11 @@ void changeAlarm(int alPos){
 				allAlarms[alPos][2] = 0;
 				allAlarms[alPos][3] = 0; //set alarm state as OFF
 
-				allAlarmsMenu[alPos][7] = 'O'; //optional
-				allAlarmsMenu[alPos][8] = 'F'; //
-				allAlarmsMenu[alPos][9] = 'F';
+				allAlarmsMenu[alPos][7] = '_'; //problem here 
+				allAlarmsMenu[alPos][8] = '_'; 
+				//allAlarmsMenu[alPos][9] = 'F';
+				allAlarmsMenu[alPos][10] = '_';
+				allAlarmsMenu[alPos][11] = '_';
  
 				alarmChangeList[alPos][0] = '0'; 
 				alarmChangeList[alPos][1] = '0'; 
@@ -368,7 +346,6 @@ void changeAlarm(int alPos){
 				
 				i = 8;
 				delAlarm = true;
-				//alarmCount -= 1;
 				set=3;
 				break;	
 			}
@@ -390,9 +367,8 @@ void changeAlarm(int alPos){
 		allAlarms[alPos][3] = 1;
 
 		txtHr = alarmclock.int_to_char(hr_al);
-		allAlarmsMenu[alPos][7] = 'O'; //optional
-		allAlarmsMenu[alPos][8] = 'N'; 
-		allAlarmsMenu[alPos][9] = ' ';
+		allAlarmsMenu[alPos][7] = txtHr[0];
+		allAlarmsMenu[alPos][8] = txtHr[1]; 
 
 		alarmChangeList[alPos][0] = txtHr[0];
 		alarmChangeList[alPos][1] = txtHr[1];
@@ -401,5 +377,9 @@ void changeAlarm(int alPos){
 
 		alarmChangeList[alPos][3] = txtMin[0];
 		alarmChangeList[alPos][4] = txtMin[1];	
+		allAlarmsMenu[alPos][10] = txtMin[0];
+		allAlarmsMenu[alPos][11] = txtMin[1];
+
+		alarmCount =+ 1;
 	} 
 }

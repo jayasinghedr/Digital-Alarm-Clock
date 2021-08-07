@@ -92,8 +92,7 @@
 
 	for(uint8_t i=0;i<7;i++)
 	{
-		while(1)
-		{
+		while(1){
 			key = keypad_1.GetKey();
 			if (key == 1) {lcd_1.LCD_String_xy(0,n[i],"1");break;}
 			if (key == 2) {lcd_1.LCD_String_xy(0,n[i],"2");break;}
@@ -105,9 +104,8 @@
 			if (key == 8) {lcd_1.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd_1.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd_1.LCD_String_xy(0,n[i],"0");key=0;break;}
-			//if (key == 10) {lcd.LCD_String_xy(0,n[i],"P");break;}
-			if (PINC & (1<<Ok)){i=8; break;}
-			//if (i == 6){i = 0;}
+			if (!(PINC & (1<<Ok))){i=8; break;}
+			_delay_ms(200);
 		}
 
 		if (i == 0){hr+=key*10;}
@@ -151,8 +149,7 @@
 	_delay_ms(200);	
 	for(uint8_t i=0;i<5;i++)
 	{
-		while(1)
-		{
+		while(1){
 			key = keypad_1.GetKey();
 			if (key == 1) {lcd_1.LCD_String_xy(0,n[i],"1");break;}
 			if (key == 2) {lcd_1.LCD_String_xy(0,n[i],"2");break;}
@@ -164,8 +161,9 @@
 			if (key == 8) {lcd_1.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd_1.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd_1.LCD_String_xy(0,n[i],"0");key=0;break;}
-			if (PINC & (1<<Ok)){i=8; break;}
+			if (!(PINC & (1<<Ok))){i=8; break;}
 			//if (key == 10) {lcd.LCD_String_xy(0,n[i],"P");break;}
+			_delay_ms(200);
 		}
 
 		if (i == 0){hr_al+=key*10;}

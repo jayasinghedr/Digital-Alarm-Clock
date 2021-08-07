@@ -288,7 +288,7 @@ void music_notations::playthemelody(int Melody[], int MelodyDuration[], int size
 	for (int x=0; x<size; x++){
 		playthenote(Melody[x],MelodyDuration[x]);
 		_delay_us(MelodyDuration[x]);
-		if ((PINC &(1<<Ok)) or (PINC &(1<<Up)) or (PINC &(1<<Down)) or (PINC &(1<<Back))){
+		if ((!(PINC &(1<<Ok))) || (!(PINC &(1<<Up))) || (!(PINC &(1<<Down))) || (!(PINC &(1<<Back)))){
 			break;
 		}
 		

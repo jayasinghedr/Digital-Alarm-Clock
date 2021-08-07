@@ -842,6 +842,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
+<<<<<<< HEAD
 .debug_info     0x00000000     0x434f
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
@@ -853,14 +854,32 @@ END GROUP
  .debug_info    0x00003b48      0x807 music_notations.o
 
 .debug_abbrev   0x00000000     0x117b
+=======
+.debug_info     0x00000000     0x42ea
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_info    0x000005f4      0xfff AlarmClock.o
+ .debug_info    0x000015f3      0x751 ds1307.o
+ .debug_info    0x00001d44       0xe6 Get_key.o
+ .debug_info    0x00001e2a      0x769 LCD_Display.o
+ .debug_info    0x00002593     0x1550 main.o
+ .debug_info    0x00003ae3      0x807 music_notations.o
+
+.debug_abbrev   0x00000000     0x116c
+>>>>>>> master
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2      0x253 AlarmClock.o
  .debug_abbrev  0x000007f5      0x1cd ds1307.o
  .debug_abbrev  0x000009c2       0xab Get_key.o
  .debug_abbrev  0x00000a6d      0x1d2 LCD_Display.o
+<<<<<<< HEAD
  .debug_abbrev  0x00000c3f      0x2ca main.o
  .debug_abbrev  0x00000f09      0x272 music_notations.o
+=======
+ .debug_abbrev  0x00000c3f      0x2bb main.o
+ .debug_abbrev  0x00000efa      0x272 music_notations.o
+>>>>>>> master
 
 .debug_line     0x00000000     0x18b0
  *(.debug_line .debug_line.* .debug_line_end)
@@ -892,9 +911,15 @@ END GROUP
                                 0x1c3 (size before relaxing)
  .debug_str     0x000008ab       0x24 LCD_Display.o
                                 0x34d (size before relaxing)
+<<<<<<< HEAD
  .debug_str     0x000008cf      0x2ce main.o
                                 0x8d2 (size before relaxing)
  .debug_str     0x00000b9d      0x126 music_notations.o
+=======
+ .debug_str     0x000008c3      0x2d3 main.o
+                                0x8ca (size before relaxing)
+ .debug_str     0x00000b96      0x126 music_notations.o
+>>>>>>> master
                                 0x3cd (size before relaxing)
 
 .debug_loc      0x00000000     0x231f

@@ -36,19 +36,18 @@ Get_key keypad;
 AlarmClock alarmclock;
 music_notations music;
 
-int set = 0;
-const int numofscreens1 = 4;
-int currentscreenset1 = 0;
-const int numofscreens20 = 5;
-int currentscreenset20 = 0;
-const int numofscreens21 = 1;
-int currentscreenset21 = 0;
-const int numofscreens22 = 5;
-int currentscreenset22 = 0;
-const int numofscreens23 = 1;
-int currentscreenset23 = 0;
-//const int numofscreens24 = 1;
-//int currentscreenset24 = 0;
+int set = 0;                               // this variable indicates how many times has the ok button pressed
+const int numofscreens_menu = 4;           // number of screens in menu option(there are 4 screens-set alarm,set time,alarm tone,reset) 
+int currentscreen_menu = 0;                // index of currently displaying screen of menu option
+const int numofscreens_setalarm = 5;       // number of screens in set alarm option(there are 5 screens-alarm 1,alarm 2,alarm 3,alarm 4,alarm 5)
+int currentscreen_setalarm = 0;            // index of currently displaying screen of set alarm option
+const int numofscreens_settime = 1;        // number of screens in set time option
+int currentscreen_settime = 0;             // index of currently displaying screen of set time option
+const int numofscreens_alarmtone = 5;      // number of screens in alarm tone option(there are 5 screens-GOT,Pirates of the Caribbean,Star Wars, Astronomia, Take in me )
+int currentscreen_alarmtone = 0;           // index of currently displaying screen of alarm tone option
+const int numofscreens_reset = 1;          // number of screens in reset option
+int currentscreen_reset = 0;               // index of currently displaying screen of reset option
+
 
 char Menu[4][2][16] = {
 	{"Set Alarms","OK         BACK"},
@@ -68,8 +67,6 @@ char alarmtone[5][2][16] = {
 	{"ASTRONOMIA","OK             "},
 	{"TAKE IN ME","OK             "}
 };
-
-//char reset[][16] = {"reset all"};
 
 int allAlarms[5][4];	//saves all the alarms in int values [Alarm Hr, AlarmMin, 1/0, ON/OFF]
 
@@ -105,128 +102,135 @@ int main(void)
 		backbtn();
 	}
 }
-
+// function for displaying screens on lcd display
 void display(){
-
+    //menu option
 	if (set == 1){
 		lcd.LCD_Clear();
-		lcd.LCD_String(Menu[currentscreenset1][0]);        
+		lcd.LCD_String(Menu[currentscreen_menu][0]);        
 		lcd.LCD_Commandgiver(0xC0);                        
-		lcd.LCD_String(Menu[currentscreenset1][1]);
+		lcd.LCD_String(Menu[currentscreen_menu][1]);
 		_delay_ms(500);
 	}
-	
-	else if ((set == 2) & (currentscreenset1 == 0)){
-		//All alarms menu
+	//set alarms option
+	else if ((set == 2) & (currentscreen_menu == 0)){
 		lcd.LCD_Clear();
-		lcd.LCD_String(allAlarmsMenu[currentscreenset21]);  
+		lcd.LCD_String(allAlarmsMenu[currentscreen_setalarm]);  
 		lcd.LCD_Commandgiver(0xC0);                        
 		lcd.LCD_String("CHANGE     BACK");
 
 		_delay_ms(500);
 	}
-	else if ((set==3) & (currentscreenset1==0) ){//& (currentscreenset21 == 0 or 1 or 2 or 3 or 4)){		bool g = false;		lcd.LCD_Clear();		g = changeAlarm(currentscreenset21);		if (g) {set=1;}		_delay_ms(500);
+	//change alarm option
+	else if ((set==3) & (currentscreen_menu==0) ){		bool g = false;		lcd.LCD_Clear();		g = changeAlarm(currentscreen_setalarm); 		if (g) {set=1;}		_delay_ms(500);
 	}
-	else if ((set == 2) & (currentscreenset1 == 1)){
+	//set time option
+	else if ((set == 2) & (currentscreen_menu == 1)){
 		bool go;
 		go = alarmclock.setTimetoRTC();
 		if (go) {set=2;}
 		_delay_ms(500);
 	}
-	else if ((set == 2) & (currentscreenset1 == 2)){
+	//alarm tone option
+	else if ((set == 2) & (currentscreen_menu == 2)){
 		lcd.LCD_Clear();
-		lcd.LCD_String(alarmtone[currentscreenset23][0]);                //Write string on 1st line of LCD
-		lcd.LCD_Commandgiver(0xC0);                        //Go to 2nd line
-		lcd.LCD_String(alarmtone[currentscreenset23][1]);
+		lcd.LCD_String(alarmtone[currentscreen_alarmtone][0]);                
+		lcd.LCD_Commandgiver(0xC0);                        
+		lcd.LCD_String(alarmtone[currentscreen_alarmtone][1]);
 		_delay_ms(1000);
-		if (currentscreenset23==0){
+		if (currentscreen_alarmtone==0){
 			music.tone(0);
 		}
-		else if (currentscreenset23==1){
+		else if (currentscreen_alarmtone==1){
 			music.tone(1);
 		}
-		else if (currentscreenset23==2){
+		else if (currentscreen_alarmtone==2){
 			music.tone(2);
 		}
-		else if (currentscreenset23==3){
+		else if (currentscreen_alarmtone==3){
 			music.tone(3);
 		}
-		else if (currentscreenset23==4){
+		else if (currentscreen_alarmtone==4){
 			music.tone(4);
 		}
 	}
-	else if ((set == 2) & (currentscreenset1 == 3)){
+	//reset option
+	else if ((set == 2) & (currentscreen_menu == 3)){
 		lcd.LCD_Clear();
-		//lcd.LCD_String(reset[0]);                //Write string on 1st line of LCD
-		//lcd.LCD_Commandgiver(0xC0);              //Go to 2nd line
-		//lcd.LCD_String(reset[0]);
 		resetAll();
 		_delay_ms(500);
 		set = 0;
 	}
 }
-
+// function for up button 
 void upbtn(){
 	if (!(PINC &(1<<Up))){
 		_delay_ms(50);
-		if ((set == 1) & (currentscreenset1==0)){
-			currentscreenset1=numofscreens1-1;
+		// go upwards in main menu 
+		if ((set == 1) & (currentscreen_menu==0)){
+			currentscreen_menu=numofscreens_menu-1;
 			display();
 		}
-		else if ((set == 1) & (currentscreenset1 != 0)){
-			currentscreenset1 -= 1;
+		else if ((set == 1) & (currentscreen_menu != 0)){
+			currentscreen_menu -= 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset21 == 0)){
-			currentscreenset21=numofscreens21-1;
+		// go upwards in set alarm menu
+		else if ((set == 2) & (currentscreen_menu==0) & (currentscreen_setalarm == 0)){
+			currentscreen_setalarm=numofscreens_setalarm-1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset21 != 0)){
-			currentscreenset21 -= 1;
+		else if ((set == 2) & (currentscreen_menu==0) & (currentscreen_setalarm != 0)){
+			currentscreen_setalarm -= 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 == 0)){
-			currentscreenset23=numofscreens21-1;
+		// go upwards in alarm tone menu
+		else if ((set == 2) & (currentscreen_menu==2) & (currentscreen_alarmtone == 0)){
+			currentscreen_alarmtone=numofscreens_alarmtone-1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 != 0)){
-			currentscreenset23 -= 1;
+		else if ((set == 2) & (currentscreen_menu==2) & (currentscreen_alarmtone != 0)){
+			currentscreen_alarmtone -= 1;
 			display();
 		}
 	}
 }
-
+// function for down button 
 void dwnbtn(){
 	if (!(PINC &(1<<Down))){
 		_delay_ms(50);
-		if ((set == 1) & (currentscreenset1==3)){
-			currentscreenset1=0;
+		// go downwards in main menu
+		if ((set == 1) & (currentscreen_menu==3)){
+			currentscreen_menu=0;
 			display();
 		}
-		else if ((set == 1) & (currentscreenset1 != 3)){
+		else if ((set == 1) & (currentscreen_menu != 3)){
 			_delay_ms(10);
-			currentscreenset1 += 1;
+			currentscreen_menu += 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset21 == 4)){
-			currentscreenset21=0;
+		// go downwards in set alarm menu
+		else if ((set == 2) & (currentscreen_menu==0) & (currentscreen_setalarm == 4)){
+			currentscreen_setalarm=0;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==0) & (currentscreenset23 != 4)){
-			currentscreenset21 += 1;
+		else if ((set == 2) & (currentscreen_menu==0) & (currentscreen_setalarm != 4)){
+			currentscreen_setalarm += 1;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 == 4)){
-			currentscreenset23 = 0;
+		// go downwards in alarm tone menu
+		else if ((set == 2) & (currentscreen_menu==2) & (currentscreen_alarmtone == 4)){
+			currentscreen_alarmtone = 0;
 			display();
 		}
-		else if ((set == 2) & (currentscreenset1==2) & (currentscreenset23 != 4)){
-			currentscreenset23 += 1;
+		else if ((set == 2) & (currentscreen_menu==2) & (currentscreen_alarmtone != 4)){
+			currentscreen_alarmtone += 1;
 			display();
 		}
 	}
 }
-
+// function for ok button
+// go to the selected option
 void okbtn(){
 	
 	if (!(PINC & (1<<Ok))){	
@@ -239,7 +243,8 @@ void okbtn(){
 		display();}
 	}
 }
-
+// function for back button
+// go back to the previously selected option
 void backbtn(){
 	
 	if (!(PINC &(1<<Back))){
@@ -279,7 +284,7 @@ void checkAlarm(){
 			if ((currentHr == alarmHr) & (currentMin == alarmMin)  & ~(stop) & (alarmCheck==1) & (alOnOff==1)){
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
-				music.tone(currentscreenset23);
+				music.tone(currentscreen_alarmtone);
 				allAlarms[i][2] = 0;
 				alarm = true;
 			}
@@ -290,6 +295,8 @@ void checkAlarm(){
 			
 			if (!(PINC & (1<<Ok))){
 				lcd.LCD_Clear();
+				set=0;
+				display();
 				stop = true;
 				break;
 			}
@@ -423,6 +430,10 @@ void resetAll(){
 	rtc.year = 0x21; //10th Aug 2021 Tue
 	DS1307.set_time(&rtc);
 	_delay_ms(500);
-	//lcd.LCD_Clear();
+	
+	set = 0;
+	currentscreen_menu=0;
+	currentscreen_setalarm=0;
+	currentscreen_alarmtone=0;
 }
 

@@ -89,7 +89,7 @@
 	int n[6] = {4, 5, 7, 8, 10, 11};
 	lcd_1.LCD_Clear();
 	lcd_1.LCD_String_xy(0, 4, time);
-	lcd_1.LCD_String_xy(1, 0,"OK        CANCLE");
+	lcd_1.LCD_String_xy(1, 0,"OK        CANCEL");
 
 	for(uint8_t i=0;i<7;i++)
 	{

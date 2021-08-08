@@ -27,7 +27,8 @@ void upbtn();
 void backbtn();
 void dwnbtn();
 void checkAlarm();
-void changeAlarm(int alPos);
+bool changeAlarm(int alPos);
+void resetAll();
 
 ds1307 DS1307;
 LCD_Display lcd;
@@ -68,7 +69,7 @@ char alarmtone[5][2][16] = {
 	{"TAKE IN ME","OK             "}
 };
 
-char reset[][16] = {"reset all"};
+//char reset[][16] = {"reset all"};
 
 int allAlarms[5][4];	//saves all the alarms in int values [Alarm Hr, AlarmMin, 1/0, ON/OFF]
 
@@ -109,8 +110,8 @@ void display(){
 
 	if (set == 1){
 		lcd.LCD_Clear();
-		lcd.LCD_String(Menu[currentscreenset1][0]);        //Write string on 1st line of LCD
-		lcd.LCD_Commandgiver(0xC0);                        //Go to 2nd line
+		lcd.LCD_String(Menu[currentscreenset1][0]);        
+		lcd.LCD_Commandgiver(0xC0);                        
 		lcd.LCD_String(Menu[currentscreenset1][1]);
 		_delay_ms(500);
 	}
@@ -124,12 +125,12 @@ void display(){
 
 		_delay_ms(500);
 	}
-	else if ((set==3) & (currentscreenset1==0) ){//& (currentscreenset21 == 0 or 1 or 2 or 3 or 4)){		lcd.LCD_Clear();		changeAlarm(currentscreenset21);		_delay_ms(500);
+	else if ((set==3) & (currentscreenset1==0) ){//& (currentscreenset21 == 0 or 1 or 2 or 3 or 4)){		bool g = false;		lcd.LCD_Clear();		g = changeAlarm(currentscreenset21);		if (g) {set=1;}		_delay_ms(500);
 	}
 	else if ((set == 2) & (currentscreenset1 == 1)){
 		bool go;
 		go = alarmclock.setTimetoRTC();
-		if (go){set=1;}
+		if (go) {set=2;}
 		_delay_ms(500);
 	}
 	else if ((set == 2) & (currentscreenset1 == 2)){
@@ -156,10 +157,12 @@ void display(){
 	}
 	else if ((set == 2) & (currentscreenset1 == 3)){
 		lcd.LCD_Clear();
-		lcd.LCD_String(reset[0]);                //Write string on 1st line of LCD
-		lcd.LCD_Commandgiver(0xC0);              //Go to 2nd line
-		lcd.LCD_String(reset[0]);
+		//lcd.LCD_String(reset[0]);                //Write string on 1st line of LCD
+		//lcd.LCD_Commandgiver(0xC0);              //Go to 2nd line
+		//lcd.LCD_String(reset[0]);
+		resetAll();
 		_delay_ms(500);
+		set = 0;
 	}
 }
 
@@ -276,7 +279,6 @@ void checkAlarm(){
 			if ((currentHr == alarmHr) & (currentMin == alarmMin)  & ~(stop) & (alarmCheck==1) & (alOnOff==1)){
 				lcd.LCD_String_xy(0, 0, "     Alarm      ");
 				lcd.LCD_String_xy(1, 0, "STOP            ");
-
 				music.tone(currentscreenset23);
 				allAlarms[i][2] = 0;
 				alarm = true;
@@ -295,10 +297,12 @@ void checkAlarm(){
 	}
 } 
 
-void changeAlarm(int alPos){
+bool changeAlarm(int alPos){
 	//alPos takes the position of the alarm that needs to be changed
 	//--------------------Changing Alarms---------------------------
 	bool delAlarm = false;
+	bool noChange = false;
+	bool backToMenu = false;
 	uint8_t key;
 	
 	int min_al=0, hr_al=0;
@@ -324,7 +328,11 @@ void changeAlarm(int alPos){
 			if (key == 8) {lcd.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd.LCD_String_xy(0,n[i],"0");key=0;break;}
-			if (!(PINC & (1<<Ok))){i=8; break;}
+			if (!(PINC & (1<<Ok))){
+				if (i==0){noChange=true;}
+				i=8; 
+				break;
+			}
 			if (!(PINC & (1<<Back))){
 				//deleting alarm
 				allAlarms[alPos][0] = 0;
@@ -332,11 +340,10 @@ void changeAlarm(int alPos){
 				allAlarms[alPos][2] = 0;
 				allAlarms[alPos][3] = 0; //set alarm state as OFF
 
-				allAlarmsMenu[alPos][7] = ' '; //problem here 
-				allAlarmsMenu[alPos][8] = ' '; 
-				allAlarmsMenu[alPos][9] = ' ';
-				allAlarmsMenu[alPos][10] = ' ';
-				allAlarmsMenu[alPos][11] = ' ';
+				allAlarmsMenu[alPos][7] = '_'; 
+				allAlarmsMenu[alPos][8] = '_'; 
+				allAlarmsMenu[alPos][10] = '_';
+				allAlarmsMenu[alPos][11] = '_';
  
 				alarmChangeList[alPos][0] = '0'; 
 				alarmChangeList[alPos][1] = '0'; 
@@ -357,7 +364,7 @@ void changeAlarm(int alPos){
 		if (i == 3){min_al+=key;}
 	}
 	//updating the lists with new alarm Hour and Min
-	if (~(delAlarm)){
+	if (!(delAlarm || noChange)){
 		char* txtHr;
 		char* txtMin;
 		allAlarms[alPos][0] = hr_al;
@@ -379,8 +386,43 @@ void changeAlarm(int alPos){
 
 		allAlarmsMenu[alPos][10] = txtMin[0];
 		allAlarmsMenu[alPos][11] = txtMin[1];
-		alarmCount =+ 1;
-		set = 3;
+
+		backToMenu = true;
 	} 
+	return backToMenu;
+}
+
+void resetAll(){
+	lcd.LCD_String_xy(0, 0, "Resetting All");
+	for (int i=0; i<5; i++){
+		allAlarms[i][0] = 0;
+		allAlarms[i][1] = 0;
+		allAlarms[i][2] = 0;
+		allAlarms[i][3] = 0; //set alarm state as OFF
+
+		allAlarmsMenu[i][7] = '_'; 
+		allAlarmsMenu[i][8] = '_';
+		allAlarmsMenu[i][10] = '_';
+		allAlarmsMenu[i][11] = '_';
+	
+		alarmChangeList[i][0] = '0';
+		alarmChangeList[i][1] = '0';
+		alarmChangeList[i][3] = '0';
+		alarmChangeList[i][4] = '0';
+	}
+
+	ds1307::rtc_t rtc;
+
+	//Setting time to the RTC
+	rtc.seconds =  0x00;
+	rtc.minute =  0x00;
+	rtc.hour = 0x00;	//Initial Time set to 10:00:00
+	rtc.weekDay = 0x01;
+	rtc.date = 0x06;
+	rtc.month = 0x08;
+	rtc.year = 0x21; //10th Aug 2021 Tue
+	DS1307.set_time(&rtc);
+	_delay_ms(500);
+	//lcd.LCD_Clear();
 }
 

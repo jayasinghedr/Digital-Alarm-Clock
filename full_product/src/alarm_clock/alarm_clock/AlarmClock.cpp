@@ -85,22 +85,23 @@
 	sec=0;
 	min=0;
 	hr=0;
+	bool goBack = false;
 	int n[6] = {4, 5, 7, 8, 10, 11};
 	lcd_1.LCD_Clear();
 	lcd_1.LCD_String_xy(0, 4, time);
-	bool goBack = false;
+	lcd_1.LCD_String_xy(1, 0,"OK        CANCLE");
 
 	for(uint8_t i=0;i<7;i++)
 	{
 		
 		while(1){
-			if(i==0){
+			/*if(i==0){
 				lcd_1.LCD_String_xy(1, 0,"OK          BACK");
-				if(!((PINC & (1<<Back)))){goBack = true;i=8;break;}
+				
 			}
 			else{
 				lcd_1.LCD_String_xy(1, 0,"OK              ");
-			}
+			}*/
 
 			key = keypad_1.GetKey();
 			if (key == 1) {lcd_1.LCD_String_xy(0,n[i],"1");break;}
@@ -113,6 +114,7 @@
 			if (key == 8) {lcd_1.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd_1.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd_1.LCD_String_xy(0,n[i],"0");key=0;break;}
+			if(!(PINC & (1<<Back))){goBack=true;i=8;break;}
 			if (!(PINC & (1<<Ok))){i=8; break;}
 
 			_delay_ms(200);
@@ -126,7 +128,7 @@
 		if (i == 5){sec+=key;}
 
 	}
-	if (~(goBack)){
+	if (!(goBack)){
 		hour = ds1307_1.dec_to_bcd(hr);
 		minutes = ds1307_1.dec_to_bcd(min);
 		seconds = ds1307_1.dec_to_bcd(sec);

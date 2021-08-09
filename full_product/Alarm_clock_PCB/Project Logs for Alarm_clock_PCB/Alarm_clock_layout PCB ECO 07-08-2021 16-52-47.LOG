@@ -1,0 +1,28 @@
+Removed Pin From Net: NetName=+5V Pin=KEY2-3
+Removed Pin From Net: NetName=+5V Pin=KEY2-4
+Removed Pin From Net: NetName=+5V Pin=KEY3-3
+Removed Pin From Net: NetName=+5V Pin=KEY3-4
+Removed Pin From Net: NetName=+5V Pin=KEY4-3
+Removed Pin From Net: NetName=+5V Pin=KEY4-4
+Removed Pin From Net: NetName=+5V Pin=KEY5-3
+Removed Pin From Net: NetName=+5V Pin=KEY5-4
+Removed Pin From Net: NetName=GND Pin=R12-1
+Removed Pin From Net: NetName=UP Pin=R12-2
+Removed Pin From Net: NetName=GND Pin=R13-1
+Removed Pin From Net: NetName=DOWN Pin=R13-2
+Removed Pin From Net: NetName=GND Pin=R14-1
+Removed Pin From Net: NetName=OK Pin=R14-2
+Removed Pin From Net: NetName=GND Pin=R15-1
+Removed Pin From Net: NetName=BACK Pin=R15-2
+Added Pin To Net: NetName=GND Pin=KEY2-3
+Added Pin To Net: NetName=GND Pin=KEY2-4
+Added Pin To Net: NetName=GND Pin=KEY3-3
+Added Pin To Net: NetName=GND Pin=KEY3-4
+Added Pin To Net: NetName=GND Pin=KEY4-3
+Added Pin To Net: NetName=GND Pin=KEY4-4
+Added Pin To Net: NetName=GND Pin=KEY5-3
+Added Pin To Net: NetName=GND Pin=KEY5-4
+Change Net Name : Old Net Name=+VCC New Net Name=VCC
+Added Pin To Net: NetName=NetU5_2 Pin=U5-2
+Added Pin To Net: NetName=NetU5_2 Pin=XTAL2-2
+Added Net: Name=NetU5_2

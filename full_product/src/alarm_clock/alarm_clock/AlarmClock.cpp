@@ -129,6 +129,11 @@
 
 	}
 	if (!(goBack)){
+		if (hr >= 24){
+			hr = 0;
+		}
+		if (min>=60){min=0;}
+		if (sec >= 60){sec = 0;}
 		hour = ds1307_1.dec_to_bcd(hr);
 		minutes = ds1307_1.dec_to_bcd(min);
 		seconds = ds1307_1.dec_to_bcd(sec);

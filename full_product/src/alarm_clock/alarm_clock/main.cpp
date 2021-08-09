@@ -37,7 +37,7 @@ AlarmClock alarmclock;
 music_notations music;
 
 int set = 0;                               // this variable indicates how many times has the ok button pressed
-const int numofscreens_menu = 4;           // number of screens in menu option(there are 4 screens-set alarm,set time,alarm tone,reset) 
+const int numofscreens_menu = 4;           // number of screens in main menu option(there are 4 screens-set alarm,set time,alarm tone,reset) 
 int currentscreen_menu = 0;                // index of currently displaying screen of menu option
 const int numofscreens_setalarm = 5;       // number of screens in set alarm option(there are 5 screens-alarm 1,alarm 2,alarm 3,alarm 4,alarm 5)
 int currentscreen_setalarm = 0;            // index of currently displaying screen of set alarm option
@@ -50,10 +50,10 @@ int currentscreen_reset = 0;               // index of currently displaying scre
 
 
 char Menu[4][2][16] = {
-	{"Set Alarms","OK         BACK"},
-	{"Set Time","OK         BACK"},
-	{"Alarm Tone","OK         BACK"},
-	{"Reset","OK         BACK"}
+	{"1.Set Alarms","OK         BACK"},
+	{"2.Set Time","OK         BACK"},
+	{"3.Alarm Tone","OK         BACK"},
+	{"4.Reset","OK         BACK"}
 };
 
 char allAlarmsMenu[5][16] = {"Alarm1 __:__", "Alarm2 __:__", "Alarm3 __:__", "Alarm4 __:__","Alarm5 __:__"};
@@ -61,11 +61,11 @@ char allAlarmsMenu[5][16] = {"Alarm1 __:__", "Alarm2 __:__", "Alarm3 __:__", "Al
 char alarmChangeList[5][16] = {"00:00", "00:00", "00:00", "00:00", "00:00"};
 
 char alarmtone[5][2][16] = {
-	{"GOT","OK             "},
-	{"PIRATES","OK             "},
-	{"STARWARS","OK             "},
-	{"ASTRONOMIA","OK             "},
-	{"TAKE IN ME","OK             "}
+	{"1.GOT","OK             "},
+	{"2.PIRATES","OK             "},
+	{"3.STARWARS","OK             "},
+	{"4.ASTRONOMIA","OK             "},
+	{"5.TAKE IN ME","OK             "}
 };
 
 int allAlarms[5][4];	//saves all the alarms in int values [Alarm Hr, AlarmMin, 1/0, ON/OFF]
@@ -85,7 +85,7 @@ int main(void)
 	rtc.minute =  0x00;
 	rtc.hour = 0x10;	//Initial Time set to 10:00:00 
 	rtc.weekDay = 0x02;
-	rtc.date = 0x06;
+	rtc.date = 0x10;
 	rtc.month = 0x08;
 	rtc.year = 0x21; //10th Aug 2021 Tue
 	DS1307.set_time(&rtc);
@@ -374,6 +374,8 @@ bool changeAlarm(int alPos){
 	if (!(delAlarm || noChange)){
 		char* txtHr;
 		char* txtMin;
+		if (hr_al >= 24 ){hr_al = 0;}
+		if (min_al >= 60){min_al = 0;}
 		allAlarms[alPos][0] = hr_al;
 		allAlarms[alPos][1] = min_al;
 		allAlarms[alPos][2] = 1;

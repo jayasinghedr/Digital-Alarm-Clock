@@ -72,8 +72,6 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
- .bss.alarmCount
-                0x00000000        0x2 main.o
  .bss.currentscreen_reset
                 0x00000000        0x2 main.o
  .bss.currentscreen_settime
@@ -843,25 +841,25 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x43b2
+.debug_info     0x00000000     0x4385
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_info    0x000005f4     0x1014 AlarmClock.o
  .debug_info    0x00001608      0x751 ds1307.o
  .debug_info    0x00001d59       0xe6 Get_key.o
  .debug_info    0x00001e3f      0x769 LCD_Display.o
- .debug_info    0x000025a8     0x1603 main.o
- .debug_info    0x00003bab      0x807 music_notations.o
+ .debug_info    0x000025a8     0x15d6 main.o
+ .debug_info    0x00003b7e      0x807 music_notations.o
 
-.debug_abbrev   0x00000000     0x1198
+.debug_abbrev   0x00000000     0x11a6
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2      0x253 AlarmClock.o
  .debug_abbrev  0x000007f5      0x1cd ds1307.o
  .debug_abbrev  0x000009c2       0xab Get_key.o
  .debug_abbrev  0x00000a6d      0x1d2 LCD_Display.o
- .debug_abbrev  0x00000c3f      0x2e7 main.o
- .debug_abbrev  0x00000f26      0x272 music_notations.o
+ .debug_abbrev  0x00000c3f      0x2f5 main.o
+ .debug_abbrev  0x00000f34      0x272 music_notations.o
 
 .debug_line     0x00000000     0x1a1b
  *(.debug_line .debug_line.* .debug_line_end)
@@ -882,7 +880,7 @@ END GROUP
  .debug_frame   0x000002b8      0x14c main.o
  .debug_frame   0x00000404       0xfc music_notations.o
 
-.debug_str      0x00000000      0xd02
+.debug_str      0x00000000      0xcf7
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208      0x620 AlarmClock.o
@@ -893,9 +891,9 @@ END GROUP
                                 0x1c3 (size before relaxing)
  .debug_str     0x0000085f       0x24 LCD_Display.o
                                 0x34d (size before relaxing)
- .debug_str     0x00000883      0x313 main.o
-                                0x919 (size before relaxing)
- .debug_str     0x00000b96      0x16c music_notations.o
+ .debug_str     0x00000883      0x34e main.o
+                                0x916 (size before relaxing)
+ .debug_str     0x00000bd1      0x126 music_notations.o
                                 0x3cd (size before relaxing)
 
 .debug_loc      0x00000000     0x248e

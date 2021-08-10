@@ -20,6 +20,7 @@
 #define Down	PINC1
 #define Ok		PINC2
 #define Back	PINC3
+#define Speaker PORTD7
 
 void display();
 void okbtn();
@@ -49,18 +50,20 @@ const int numofscreens_reset = 1;          // number of screens in reset option
 int currentscreen_reset = 0;               // index of currently displaying screen of reset option
 
 
-char Menu[4][2][16] = {
+char Menu[4][2][16] = {	//main menu with 4 options
 	{"1.Set Alarms","OK         BACK"},
 	{"2.Set Time","OK         BACK"},
 	{"3.Alarm Tone","OK         BACK"},
 	{"4.Reset","OK         BACK"}
 };
 
-char allAlarmsMenu[5][16] = {"Alarm1 __:__", "Alarm2 __:__", "Alarm3 __:__", "Alarm4 __:__","Alarm5 __:__"};
 
-char alarmChangeList[5][16] = {"00:00", "00:00", "00:00", "00:00", "00:00"};
+char allAlarmsMenu[5][16] = {"Alarm1 __:__", "Alarm2 __:__", "Alarm3 __:__", "Alarm4 __:__","Alarm5 __:__"};	//this list displays the alarms we have already set  
 
-char alarmtone[5][2][16] = {
+char alarmChangeList[5][16] = {"00:00", "00:00", "00:00", "00:00", "00:00"};	//these values are changed when we change the alarms (as char arrays)
+
+
+char alarmtone[5][2][16] = {	//5 alarm tones
 	{"1.GOT","OK             "},
 	{"2.PIRATES","OK             "},
 	{"3.STARWARS","OK             "},
@@ -68,19 +71,19 @@ char alarmtone[5][2][16] = {
 	{"5.TAKE IN ME","OK             "}
 };
 
-int allAlarms[5][4];	//saves all the alarms in int values [Alarm Hr, AlarmMin, 1/0, ON/OFF]
 
-int alarmCount = 0;
-bool stop = false;	
+int allAlarms[5][4];	//saves all the alarms in integer values [Alarm Hr, AlarmMin, 1/0, ON/OFF]
+
+bool stop = false;	//this variable checks if the alarm if stopped
 
 
 int main(void)
 {
-	DDRD = (1<<PORTD7);
-	PORTC |= (1<<PORTC0) | (1<<PORTC1) | (1<<PORTC2) | (1<<PORTC3);
-	ds1307::rtc_t rtc;
+	DDRD = (1<<Speaker);	//setting the PORTD7 as output for speaker
+	PORTC |= (1<<PORTC0) | (1<<PORTC1) | (1<<PORTC2) | (1<<PORTC3); //enabling the internal pull ups for the 4 buttons
 
 	//Setting time to the RTC
+	ds1307::rtc_t rtc;
 	rtc.seconds =  0x00; 
 	rtc.minute =  0x00;
 	rtc.hour = 0x10;	//Initial Time set to 10:00:00 
@@ -90,12 +93,12 @@ int main(void)
 	rtc.year = 0x21; //10th Aug 2021 Tue
 	DS1307.set_time(&rtc);
 
-	lcd.LCD_Initializer();	//initialize the display to PORTB
+	lcd.LCD_Initializer();	//initializes the display to PORTB
 
 	while (1)
 	{
 		
-		if (set==0){alarmclock.displayTime(); checkAlarm();}
+		if (set==0){alarmclock.displayTime(); checkAlarm();}	// alarm checking & displaying time are done on the main screen (set = 0) 
 		okbtn();
 		upbtn();
 		dwnbtn();
@@ -261,10 +264,11 @@ void backbtn(){
 }
 
 void checkAlarm(){
+	//This function goes through all the alarms in allAlarms list
+	//and if any alarm time is equal to the current time it turns on the speaker
 	int currentHr, currentMin, alarmHr, alarmMin, alarmCheck, alOnOff;
-	bool alarm;
-	//checking time and ringing an alarm
-	for (int i=0; i<5;i++){
+	bool alarm; 
+	for (int i=0; i<5;i++){ // checks through each alarm separately 
 		alarmHr = allAlarms[i][0];
 		alarmMin = allAlarms[i][1];
 		alarmCheck = allAlarms[i][2]; //only used within this loop to check of the alarm was turned on
@@ -279,23 +283,25 @@ void checkAlarm(){
 		}
 		
 		while (1){
-			currentHr = DS1307.read_time(02);
+			currentHr = DS1307.read_time(02);	//gets the time from the RTC
 			currentMin = DS1307.read_time(01);
 			if ((currentHr == alarmHr) & (currentMin == alarmMin)  & ~(stop) & (alarmCheck==1) & (alOnOff==1)){
-				lcd.LCD_String_xy(0, 0, "     Alarm      ");
-				lcd.LCD_String_xy(1, 0, "STOP            ");
-				music.tone(currentscreen_alarmtone);
+				//if all the above conditions are met the speaker will start playing the tone
+				lcd.LCD_String_xy(0, 0, "     Alarm      ");	//LCD will display the following message
+				lcd.LCD_String_xy(1, 0, "STOP            ");	// |     Alarm      |
+																// |Stop            |
+				music.tone(currentscreen_alarmtone);			// the tone selected from the menu will be played
 				allAlarms[i][2] = 0;
 				alarm = true;
 			}
 			else{
-				if(alarm){lcd.LCD_Clear();alarm=false;set=0;}
+				if(alarm){lcd.LCD_Clear();alarm=false;set=0;}	//after 1 minute the alarm will stop ringing
 				break;
 			}
 			
-			if (!(PINC & (1<<Ok))){
-				lcd.LCD_Clear();
-				set=0;
+			if (!(PINC & (1<<Ok))){	//if we press the Ok button while the alarm is playing
+				lcd.LCD_Clear();	//it will stop the alarm
+				set=0;				//and return back to displaying current time
 				display();
 				stop = true;
 				break;
@@ -305,23 +311,23 @@ void checkAlarm(){
 } 
 
 bool changeAlarm(int alPos){
+	//this function is used to Set, Change & Delete alarms
 	//alPos takes the position of the alarm that needs to be changed
-	//--------------------Changing Alarms---------------------------
-	bool delAlarm = false;
+	bool delAlarm = false;	
 	bool noChange = false;
 	bool backToMenu = false;
 	uint8_t key;
 	
 	int min_al=0, hr_al=0;
 	int n[6] = {6, 7, 9, 10};
-	static int alarm[2];
 	
 	lcd.LCD_Clear();
-	lcd.LCD_String_xy(0, 6, alarmChangeList[alPos]);
-	lcd.LCD_String_xy(1, 0, "OK       DELETE");
+	lcd.LCD_String_xy(0, 6, alarmChangeList[alPos]); //display the current alarm time or 00:00 is alarm is not set 
+	lcd.LCD_String_xy(1, 0, "OK       DELETE");	
 	_delay_ms(200);
 	for(uint8_t i=0;i<5;i++)
 	{
+		//we can change the alarm values through keypad input
 		while(1)
 		{
 			key = keypad.GetKey();
@@ -335,24 +341,27 @@ bool changeAlarm(int alPos){
 			if (key == 8) {lcd.LCD_String_xy(0,n[i],"8");break;}
 			if (key == 9) {lcd.LCD_String_xy(0,n[i],"9");break;}
 			if (key == 11) {lcd.LCD_String_xy(0,n[i],"0");key=0;break;}
-			if (!(PINC & (1<<Ok))){
+			if (!(PINC & (1<<Ok))){	
+				//when okay button is pressed the alarm will be saved and the used will 
+				//exit the current screen
 				if (i==0){noChange=true;}
 				i=8; 
 				break;
 			}
 			if (!(PINC & (1<<Back))){
-				//deleting alarm
+				//when we press the back button the saved alarms will be deleted
+				//the user will exit the screen
 				allAlarms[alPos][0] = 0;
 				allAlarms[alPos][1] = 0;
 				allAlarms[alPos][2] = 0;
 				allAlarms[alPos][3] = 0; //set alarm state as OFF
 
-				allAlarmsMenu[alPos][7] = '_'; 
+				allAlarmsMenu[alPos][7] = '_'; //all alarms menu will change back tp -> Alarm# __:__ 
 				allAlarmsMenu[alPos][8] = '_'; 
 				allAlarmsMenu[alPos][10] = '_';
 				allAlarmsMenu[alPos][11] = '_';
  
-				alarmChangeList[alPos][0] = '0'; 
+				alarmChangeList[alPos][0] = '0'; //alarm screen will change back to -> 00:00
 				alarmChangeList[alPos][1] = '0'; 
 				alarmChangeList[alPos][3] = '0'; 
 				alarmChangeList[alPos][4] = '0'; 
@@ -365,13 +374,15 @@ bool changeAlarm(int alPos){
 			_delay_ms(200);
 		}
 
-		if (i == 0){hr_al+=key*10;}
+		if (i == 0){hr_al+=key*10;}	// new alarm hour 
 		if (i == 1){hr_al+=key;}
-		if (i == 2){min_al+=key*10;}
+		if (i == 2){min_al+=key*10;} //new alarm min
 		if (i == 3){min_al+=key;}
 	}
 	//updating the lists with new alarm Hour and Min
-	if (!(delAlarm || noChange)){
+	if (!(delAlarm || noChange)){ 
+		//if the Delete (Back button was not pressed)
+		//the alarm saving in done by this code
 		char* txtHr;
 		char* txtMin;
 		if (hr_al >= 24 ){hr_al = 0;}
@@ -398,12 +409,14 @@ bool changeAlarm(int alPos){
 
 		backToMenu = true;
 	} 
-	return backToMenu;
+	return backToMenu;	//after saving the alarm user can go back to the Set Alarms menu
 }
 
 void resetAll(){
+	//this function resets all the values already stored in the alarm clock
 	lcd.LCD_String_xy(0, 0, "Resetting All");
 	for (int i=0; i<5; i++){
+		//values in all the alarm related lists will be set to default
 		allAlarms[i][0] = 0;
 		allAlarms[i][1] = 0;
 		allAlarms[i][2] = 0;
@@ -433,8 +446,8 @@ void resetAll(){
 	DS1307.set_time(&rtc);
 	_delay_ms(500);
 	
-	set = 0;
-	currentscreen_menu=0;
+	set = 0;	//goes back to the main display
+	currentscreen_menu=0; 
 	currentscreen_setalarm=0;
 	currentscreen_alarmtone=0;
 }
